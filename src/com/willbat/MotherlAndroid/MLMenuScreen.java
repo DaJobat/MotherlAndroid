@@ -13,11 +13,18 @@ import com.badlogic.gdx.graphics.GL20;
  * To change this template use File | Settings | File Templates.
  */
 public class MLMenuScreen implements Screen {
+
+    MLCore game;
+
+    //Constructor to allow us to reference the main Game class (MLCore)
+    public MLMenuScreen(MLCore game){
+        this.game = game;
+    }
     @Override
     public void render(float delta) {
         //To change body of implemented methods use File | Settings | File Templates.
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl20.glClearColor(100.0F, 149.0F, 237.0F, 1.0F);
+        Gdx.gl20.glClearColor(255.0F, 0.0F, 0.0F, 1.0F);
     }
 
     @Override

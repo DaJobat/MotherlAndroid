@@ -13,6 +13,6 @@ public class MLCore extends Game {
     @Override
     public void create() {
         //To change body of implemented methods use File | Settings | File Templates.
-        setScreen(new MLMenuScreen());
+        setScreen(new MLGameScreen(this));
     }
 }
