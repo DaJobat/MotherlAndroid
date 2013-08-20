@@ -17,7 +17,7 @@ public class MLMenuScreen implements Screen {
     public void render(float delta) {
         //To change body of implemented methods use File | Settings | File Templates.
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl20.glClearColor(255.0F, 255.0F, 255.0F, 1.0F);
+        Gdx.gl20.glClearColor(100.0F, 149.0F, 237.0F, 1.0F);
     }
 
     @Override
