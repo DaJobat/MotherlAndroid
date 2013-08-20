@@ -10,15 +10,16 @@ package com.willbat.MotherlAndroid;
 public enum Tiletype {
     // Tiletype is formatted in the following manner:
     // NAME (Texture, Mine Level,)
-    DIRT(0),
-    SALT(0),
-    COAL(1);
+    DIRT(0,0),
+    SALT(1,0),
+    COAL(2,1);
+    // This refers to the column of the tilesheet that corresponds to this material
+    public int textureLocation;
+    // This refers to the level of upgrade needed for the drill
     public int mineLevel;
-    //TODO: Replace this with a location when tilesets are implemented
-    // For now, this is the relative location of the texture file
-    public String textureLocation;
 
-    Tiletype(int mineLevel) {
-    this.mineLevel = mineLevel;
+    Tiletype(int mineLevel, int textureLocation) {
+        this.textureLocation = textureLocation;
+        this.mineLevel = mineLevel;
     }
 }
