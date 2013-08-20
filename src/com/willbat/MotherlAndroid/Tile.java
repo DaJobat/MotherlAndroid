@@ -11,16 +11,9 @@ public class Tile {
     protected boolean visible;
 
     public Tile(Tiletype type) {
-        getProperties(type);
-    }
-
-    public void getProperties(Tiletype type) {
-        switch (type) {
-            case DIRT:
-
-                break;
-            case SALT:
-                break;
+        for (Tiletype properties : type.values()) {
+            mineLevel = properties.mineLevel;
+            texture = new Texture(properties.textureLocation);
         }
     }
 }

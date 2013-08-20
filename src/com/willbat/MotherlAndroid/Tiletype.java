@@ -14,6 +14,9 @@ public enum Tiletype {
     SALT(0),
     COAL(1);
     public int mineLevel;
+    //TODO: Replace this with a location when tilesets are implemented
+    // For now, this is the relative location of the texture file
+    public String textureLocation;
 
     Tiletype(int mineLevel) {
     this.mineLevel = mineLevel;

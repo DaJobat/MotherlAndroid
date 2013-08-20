@@ -1,1 +1,4 @@
-TODO:
+TODO: Make a player class
+TODO: Continue working on tiletype enum and tile class
+TODO: Implement textureregions for tilesheets
+TODO: Make a template tilesheet
