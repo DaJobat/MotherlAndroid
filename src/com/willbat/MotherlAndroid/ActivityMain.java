@@ -18,7 +18,6 @@ public class ActivityMain extends AndroidApplication {
         AndroidApplicationConfiguration appConfig = new AndroidApplicationConfiguration();
         appConfig.useGL20 = true;
         appConfig.useWakelock = true;
-
         initialize(new MLCore(), appConfig);
     }
 }
