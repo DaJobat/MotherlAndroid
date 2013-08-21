@@ -3,6 +3,9 @@ package com.willbat.MotherlAndroid;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,10 +17,11 @@ import com.badlogic.gdx.graphics.GL20;
 public class MLGameScreen implements Screen {
 
     MLCore game;
-
+    Texture gameBtnTexture;
     //Constructor to allow us to reference the main Game class (MLCore)
     public MLGameScreen(MLCore game){
         this.game = game;
+        gameBtnTexture = new Texture(Gdx.files.internal("gameButton.png"));
     }
 
     @Override
@@ -25,10 +29,16 @@ public class MLGameScreen implements Screen {
         //To change body of implemented methods use File | Settings | File Templates.
         if (Gdx.input.justTouched())
         {
-            game.setScreen(new MLMenuScreen(game));
+            //game.setScreen(new MLMenuScreen(game));
         }
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl20.glClearColor(100.0F, 149.0F, 237.0F, 1.0F);
+        Gdx.gl20.glClearColor(100f / 255, 149f / 255, 237f / 255, 1.0F);
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeType.Circle);
+        shapeRenderer.setColor(1, 1, 0, 1);
+        shapeRenderer.circle(Gdx.input.getX(), Gdx.input.getY(), 20);
+        shapeRenderer.end();
     }
 
     @Override
