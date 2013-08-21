@@ -3,6 +3,7 @@ package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -27,8 +28,12 @@ public class MLMenuScreen implements Screen {
     }
     @Override
     public void render(float delta) {
-//        Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        Gdx.gl20.glClearColor(200.0F, 200.0F, 200.0F, 1.0F);
+        if (Gdx.input.justTouched())
+        {
+            game.setScreen(new MLGameScreen(game));
+        }
+        Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl20.glClearColor(100f / 255, 149f / 255, 237f / 255, 1.0F);
         batch.begin();
         renderDebug();
         batch.end();
@@ -65,8 +70,8 @@ public class MLMenuScreen implements Screen {
     }
 
     public void renderDebug() {
-        font.setColor(0.0f,0.0f,1.0f,1.0f);
-        String debugString = ("W: " + Gdx.graphics.getWidth() + ", H: " + Gdx.graphics.getHeight() + ", FPS: " + Gdx.graphics.getFramesPerSecond());
-        font.draw(batch, debugString, 0,0);
+        font.setColor(0.0f,0.0f,0.0f,1.0f);
+        CharSequence debugString = ("W: " + Gdx.graphics.getWidth() + ", H: " + Gdx.graphics.getHeight() + ", FPS: " + Gdx.graphics.getFramesPerSecond());
+        font.draw(batch, debugString, 0,Gdx.graphics.getHeight());
     }
 }
