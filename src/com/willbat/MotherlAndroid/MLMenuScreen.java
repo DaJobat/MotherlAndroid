@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Jobat
@@ -19,6 +22,7 @@ public class MLMenuScreen implements Screen {
     MLCore game;
     SpriteBatch batch;
     BitmapFont font;
+    Circle[] circles = new Circle[20];
 
     //Constructor to allow us to reference the main Game class (MLCore)
     public MLMenuScreen(MLCore game){
@@ -37,6 +41,21 @@ public class MLMenuScreen implements Screen {
         batch.begin();
         renderDebug();
         batch.end();
+
+        ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeType.Circle);
+        shapeRenderer.setColor(1, 1, 0, 1);
+
+        for(int i=0; i<20; i++){
+            if(i<19 && circles[i+1] != null){
+                circles[i] = circles[i+1];
+            }else{
+                circles[i] = new Circle(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            }
+            shapeRenderer.circle(circles[i].x, circles[i].y, i+1);
+        }
+
+        shapeRenderer.end();
     }
 
     @Override
@@ -73,5 +92,14 @@ public class MLMenuScreen implements Screen {
         font.setColor(0.0f,0.0f,0.0f,1.0f);
         CharSequence debugString = ("W: " + Gdx.graphics.getWidth() + ", H: " + Gdx.graphics.getHeight() + ", FPS: " + Gdx.graphics.getFramesPerSecond());
         font.draw(batch, debugString, 0,Gdx.graphics.getHeight());
+    }
+
+    private class Circle{
+        public int x, y;
+
+        public Circle(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
     }
 }
