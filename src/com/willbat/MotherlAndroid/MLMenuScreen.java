@@ -1,6 +1,5 @@
 package com.willbat.MotherlAndroid;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -23,6 +22,7 @@ public class MLMenuScreen implements Screen {
     SpriteBatch batch;
     BitmapFont font;
     Circle[] circles = new Circle[20];
+    Circle[] circles1 = new Circle[20];
 
     //Constructor to allow us to reference the main Game class (MLCore)
     public MLMenuScreen(MLCore game){
@@ -32,7 +32,7 @@ public class MLMenuScreen implements Screen {
     }
     @Override
     public void render(float delta) {
-        if (Gdx.input.justTouched())
+        if (Gdx.input.isTouched(2))
         {
             game.setScreen(new MLGameScreen(game));
         }
@@ -50,9 +50,20 @@ public class MLMenuScreen implements Screen {
             if(i<19 && circles[i+1] != null){
                 circles[i] = circles[i+1];
             }else{
-                circles[i] = new Circle(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+                circles[i] = new Circle(Gdx.input.getX(0), Gdx.graphics.getHeight() - Gdx.input.getY(0));
             }
             shapeRenderer.circle(circles[i].x, circles[i].y, i+1);
+        }
+
+        shapeRenderer.setColor(1, 0, 1, 1);
+        for(int i=0; i<20; i++){
+            if(i<19 && circles1[i+1] != null){
+                circles1[i].x = jump(Gdx.input.getX(1), Gdx.input.getX(0), i);
+                circles1[i].y = Gdx.graphics.getHeight() - jump(Gdx.input.getY(1), Gdx.input.getY(0), i);
+            }else{
+                circles1[i] = new Circle(jump(Gdx.input.getX(1), Gdx.input.getX(0), i), Gdx.graphics.getHeight() - jump(Gdx.input.getY(1), Gdx.input.getY(0), i));
+            }
+            shapeRenderer.circle(circles1[i].x, circles1[i].y, i+1);
         }
 
         shapeRenderer.end();
@@ -92,6 +103,10 @@ public class MLMenuScreen implements Screen {
         font.setColor(0.0f,0.0f,0.0f,1.0f);
         CharSequence debugString = ("W: " + Gdx.graphics.getWidth() + ", H: " + Gdx.graphics.getHeight() + ", FPS: " + Gdx.graphics.getFramesPerSecond());
         font.draw(batch, debugString, 0,Gdx.graphics.getHeight());
+    }
+
+    public int jump(float current, float target, float index){
+        return (int) ((((target - current)/20f) * (20f - index)) + current);
     }
 
     private class Circle{
