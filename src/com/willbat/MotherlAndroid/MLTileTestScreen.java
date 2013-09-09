@@ -3,70 +3,67 @@ package com.willbat.MotherlAndroid;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Jobat
- * Date: 20/08/13
- * Time: 21:45
+ * Date: 22/08/13
+ * Time: 23:36
  * To change this template use File | Settings | File Templates.
  */
-public class MLGameScreen implements Screen {
-
+public class MLTileTestScreen implements Screen {
     MLCore game;
-    Texture gameBtnTexture;
-    SpriteBatch batch;
     BitmapFont font;
+    SpriteBatch batch;
+    Map map;
 
-    //Constructor to allow us to reference the main Game class (MLCore)
-    public MLGameScreen(MLCore game){
+    public MLTileTestScreen(MLCore game) {
         this.game = game;
-        gameBtnTexture = new Texture(Gdx.files.internal("gameButton.png"));
         batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
+        map = new Map(10,10);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl20.glClearColor(100f / 255, 149f / 255, 237f / 255, 1.0F);
-
         batch.begin();
         renderDebug();
+        map.draw(batch);
         batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override
     public void show() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override
     public void hide() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override
     public void pause() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override
     public void resume() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override
     public void dispose() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     public void renderDebug() {
