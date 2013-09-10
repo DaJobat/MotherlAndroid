@@ -16,7 +16,6 @@ public class Tile
     protected Texture texture;
     protected int mineLevel;
     protected boolean visible;
-    public int[] location;
 
     public Tile(Tiletype type, int x, int y)
     {
@@ -24,9 +23,8 @@ public class Tile
         texture = new Texture(Gdx.files.internal("tilesheettemplate.png"));
         int[] texLocation =  getTexture(type.textureLocation);
         tileSprite = new Sprite(texture,texLocation[0], texLocation[1],32,32);
-        location = new int[]{x,y};
-        tileSprite.setX(location[0]);
-        tileSprite.setY(location[1]);
+        tileSprite.setX(x * tileSprite.getWidth());
+        tileSprite.setY(-y * tileSprite.getHeight() + (Gdx.graphics.getHeight() - tileSprite.getHeight()));
         mineLevel = type.mineLevel;
     }
 

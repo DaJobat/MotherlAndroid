@@ -28,9 +28,9 @@ public class Map
         int rowNumber = 0;
         for (Tile[] row : tiles)
         {
+            int columnNumber = 0;
             for (Tile tile : row)
             {
-                int columnNumber = 0;
                 if (rowNumber < 2)
                 {
                     row[columnNumber] = new Tile(Tiletype.AIR, columnNumber, rowNumber);
@@ -38,6 +38,10 @@ public class Map
                 else if (rowNumber > 2 && rowNumber < 5)
                 {
                     row[columnNumber] = new Tile(Tiletype.DIRT, columnNumber, rowNumber);
+                }
+                else
+                {
+                    row[columnNumber] = new Tile(Tiletype.COAL, columnNumber, rowNumber);
                 }
                 columnNumber++;
             }
@@ -51,7 +55,10 @@ public class Map
         {
             for (Tile tile : row)
             {
-                tile.draw(batch);
+                if (tile != null)
+                {
+                    tile.draw(batch);
+                }
             }
         }
     }
