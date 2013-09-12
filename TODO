@@ -1,6 +1,6 @@
-TODO: Make a player class
-TODO: implement a camera
-TODO: menu system
-TODO: Make a template tilesheet
-TODO: implement some kind of scaling based on screen size and aspect ratio
 TODO: add map layers to map class, hud layer etc
+TODO: load maps from files
+TODO: add chunk loading for map
+TODO: Make a player class
+TODO: menu system
+TODO: implement some kind of scaling based on screen size and aspect ratio

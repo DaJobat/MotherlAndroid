@@ -11,21 +11,24 @@ public enum Tiletype
 {
     // Tiletype is formatted in the following manner:
     // NAME (Texture, Mine Level,)
-    AIR(0,0,false),
-    DIRT(0,0,true),
-    SALT(1,0,true),
-    COAL(2,1,true);
+    AIR(0,0,false,2),
+    DIRT(0,0,true,2),
+    SALT(1,0,true,2),
+    COAL(2,1,true,2);
     // This refers to the column of the tilesheet that corresponds to this material
     public int textureLocation;
     // This refers to the level of upgrade needed for the drill
     public int mineLevel;
     // This says whether the tile is solid or not
     public boolean solid;
+    //This sets the layer of the map the tile should belong to. 0 is background, 1 is middle, 2 is foreground
+    public int mapLevel;
 
-    Tiletype(int mineLevel, int textureLocation, boolean solid)
+    Tiletype(int mineLevel, int textureLocation, boolean solid, int mapLevel)
     {
         this.textureLocation = textureLocation;
         this.mineLevel = mineLevel;
         this.solid = solid;
+        this.mapLevel = mapLevel;
     }
 }
