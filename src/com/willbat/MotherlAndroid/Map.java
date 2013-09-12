@@ -10,11 +10,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class Map
 {
-    Tile[][] tiles;
+    Tile[][][] tiles;
 
     public Map(int width, int height)
     {
-        tiles = new Tile[height][width];
+        tiles = new Tile[height][width][3];
         generateMap();
     }
 
@@ -25,41 +25,72 @@ public class Map
 
     private void generateMap()
     {
-        int rowNumber = 0;
-        for (Tile[] row : tiles)
+        //int layerNumber = 0;
+        for (Tile[][] columnRow : tiles)
         {
-            int columnNumber = 0;
-            for (Tile tile : row)
+            int rowNumber = 0;
+            for (Tile[] row : columnRow)
             {
-                if (rowNumber < 2)
+                int columnNumber = 0;
+                for (Tile tile : row)
                 {
-                    row[columnNumber] = new Tile(Tiletype.AIR, columnNumber, rowNumber);
+                    if (rowNumber < 2)
+                    {
+                        row[columnNumber] = new Tile(Tiletype.AIR, columnNumber, rowNumber);
+                    }
+                    else if (rowNumber > 2 && rowNumber < 5)
+                    {
+                        row[columnNumber] = new Tile(Tiletype.DIRT, columnNumber, rowNumber);
+                    }
+                    else
+                    {
+                        row[columnNumber] = new Tile(Tiletype.COAL, columnNumber, rowNumber);
+                    }
+                    columnNumber++;
                 }
-                else if (rowNumber > 2 && rowNumber < 5)
-                {
-                    row[columnNumber] = new Tile(Tiletype.DIRT, columnNumber, rowNumber);
-                }
-                else
-                {
-                    row[columnNumber] = new Tile(Tiletype.COAL, columnNumber, rowNumber);
-                }
-                columnNumber++;
+                rowNumber++;
             }
-            rowNumber++;
+            //layerNumber++;
         }
     }
 
     public void draw(SpriteBatch batch)
     {
-        for (Tile[] row : tiles)
+        int layerNumber = 0;
+        for (Tile[][] columnRow : tiles)
         {
-            for (Tile tile : row)
+            int columnNumber = 0;
+            for (Tile[] row : columnRow)
             {
-                if (tile != null)
+                int rowNumber = 0;
+                for (Tile tile : row)
                 {
-                    tile.draw(batch);
+                    if (layerNumber == 0)
+                    {
+                        if (tile != null && !tiles[layerNumber+2][columnNumber][rowNumber].visible && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                        {
+                            tile.draw(batch);
+                        }
+                    }
+                    else if (layerNumber == 1)
+                    {
+                        if (tile != null && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                        {
+                            tile.draw(batch);
+                        }
+                    }
+                    else if (layerNumber == 2)
+                    {
+                        if (tile != null && tile.visible)
+                        {
+                            tile.draw(batch);
+                        }
+                    }
+                    rowNumber++;
                 }
+                columnNumber++;
             }
+            layerNumber++;
         }
     }
 }
