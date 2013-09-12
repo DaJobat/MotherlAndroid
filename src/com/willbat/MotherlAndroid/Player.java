@@ -21,7 +21,7 @@ public class Player {
     private Texture texture;
     private int x; //Where the player is at, yo.
     private int y;
-    public static final float MOV_SPEED = 10f; //Movement speed in pixels per tick or something
+    public static final float MOV_SPEED = 1000f; //Movement speed in pixels per tick or something
     private Vector2 vector;
 
     public Player()
@@ -37,11 +37,11 @@ public class Player {
         sprite.setY(y);
         sprite.draw(batch);
     }
-    public void moveTo(int x, int y){
+    public void moveTo(int x, int y, float delta){
         Vector2 current = new Vector2(this.x, this.y);
         Vector2 destination = new Vector2(x, y);
         Vector2 direction = destination.sub(current).nor();
-        Vector2 newPosition = current.add(direction.mul(MOV_SPEED));
+        Vector2 newPosition = current.add(direction.mul(MOV_SPEED).mul(delta));
         this.x = (int) newPosition.x;
         this.y = (int) newPosition.y;
     }
