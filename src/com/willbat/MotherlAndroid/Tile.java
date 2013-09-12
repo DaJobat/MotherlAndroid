@@ -20,6 +20,7 @@ public class Tile
     public Tile(Tiletype type, int x, int y)
     {
         // Constructor for each tile.
+        visible = true;
         texture = new Texture(Gdx.files.internal("tilesheettemplate.png"));
         int[] texLocation =  getTexture(type.textureLocation);
         tileSprite = new Sprite(texture,texLocation[0], texLocation[1],32,32);
