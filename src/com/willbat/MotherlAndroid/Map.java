@@ -14,7 +14,7 @@ public class Map
 
     public Map(int width, int height)
     {
-        tiles = new Tile[height][width][3];
+        tiles = new Tile[3][height][width];
         generateMap();
     }
 

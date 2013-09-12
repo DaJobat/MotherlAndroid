@@ -30,7 +30,7 @@ public class MLGameScreen implements Screen {
         camera.update();
         batch = new SpriteBatch();
         debugBatch = new SpriteBatch();
-        map = new Map(10,10);
+        map = new Map(20,10);
         player = new Player();
         font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
     }
