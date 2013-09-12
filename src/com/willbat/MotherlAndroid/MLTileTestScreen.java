@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.lang.reflect.GenericArrayType;
@@ -18,8 +19,10 @@ import java.lang.reflect.GenericArrayType;
 public class MLTileTestScreen implements Screen {
     MLCore game;
     SpriteBatch batch;
+    SpriteBatch debugBatch;
     Map map;
     OrthographicCamera camera;
+    BitmapFont font;
     //Renderer renderer;
     GenericArrayType drawable;
 
@@ -29,7 +32,9 @@ public class MLTileTestScreen implements Screen {
         camera.setToOrtho(false);
         camera.update();
         batch = new SpriteBatch();
+        debugBatch = new SpriteBatch();
         map = new Map(10,10);
+        font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
         //renderer = new Renderer();
     }
 
@@ -43,6 +48,9 @@ public class MLTileTestScreen implements Screen {
         batch.begin();
         map.draw(batch);
         batch.end();
+        debugBatch.begin();
+        renderDebug();
+        debugBatch.end();
     }
 
     @Override
@@ -81,5 +89,11 @@ public class MLTileTestScreen implements Screen {
         {
             camera.position.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         }
+    }
+
+    public void renderDebug() {
+        font.setColor(0.0f,0.0f,0.0f,1.0f);
+        CharSequence debugString = ("W: " + Gdx.graphics.getWidth() + ", H: " + Gdx.graphics.getHeight() + ", FPS: " + Gdx.graphics.getFramesPerSecond());
+        font.draw(debugBatch, debugString, 0,Gdx.graphics.getHeight());
     }
 }
