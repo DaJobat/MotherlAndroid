@@ -18,6 +18,7 @@ public class MLGameScreen implements Screen {
     SpriteBatch batch;
     SpriteBatch debugBatch;
     Map map;
+    Player player;
     ExtendedCamera camera;
     BitmapFont font;
 
@@ -30,6 +31,7 @@ public class MLGameScreen implements Screen {
         batch = new SpriteBatch();
         debugBatch = new SpriteBatch();
         map = new Map(10,10);
+        player = new Player();
         font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
     }
 
@@ -43,6 +45,7 @@ public class MLGameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         map.draw(batch);
+        player.draw(batch);
         batch.end();
         debugBatch.begin();
         renderDebug();
@@ -95,7 +98,8 @@ public class MLGameScreen implements Screen {
         }
         else if (firstTouch)
         {
-            camera.position.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0);
+            player.moveTo(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            //camera.position.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0);
         }
     }
 
