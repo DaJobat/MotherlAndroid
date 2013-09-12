@@ -1,4 +1,6 @@
 TODO: Make a player class
-TODO: Continue working on tiletype enum and tile class
-TODO: Implement textureregions for tilesheets -- Should be done (needs testing)
+TODO: implement a camera
+TODO: menu system
 TODO: Make a template tilesheet
+TODO: implement some kind of scaling based on screen size and aspect ratio
+TODO: add map layers to map class, hud layer etc
