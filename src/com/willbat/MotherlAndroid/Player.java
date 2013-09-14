@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Random;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Willeh
@@ -19,30 +17,26 @@ public class Player {
 
     private Sprite sprite;
     private Texture texture;
-    private int x; //Where the player is at, yo.
-    private int y;
-    public static final float MOV_SPEED = 10f; //Movement speed in pixels per tick or something
-    private Vector2 vector;
+    public static final float MOV_SPEED = 100f; //Movement speed in pixels per tick or something
+    private Vector2 position;
 
     public Player()
     {
-        x=0;
-        y=0;
+        position = new Vector2(0,0);
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
     }
 
     public void draw(SpriteBatch batch) {
-        sprite.setX(x);
-        sprite.setY(y);
+        sprite.setX(position.x);
+        sprite.setY(position.y);
         sprite.draw(batch);
     }
-    public void moveTo(int x, int y){
-        Vector2 current = new Vector2(this.x, this.y);
+    public void moveTo(float delta, int x, int y){
+        Vector2 current = position;
         Vector2 destination = new Vector2(x, y);
         Vector2 direction = destination.sub(current).nor();
-        Vector2 newPosition = current.add(direction.mul(MOV_SPEED));
-        this.x = (int) newPosition.x;
-        this.y = (int) newPosition.y;
+        Vector2 newPosition = current.add(direction.mul(MOV_SPEED*delta));
+        position = newPosition;
     }
 }

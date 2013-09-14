@@ -38,7 +38,7 @@ public class MLGameScreen implements Screen {
     @Override
     public void render(float delta)
     {
-        handleInput();
+        handleInput(delta);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl20.glClearColor(100f / 255, 149f / 255, 237f / 255, 1.0F);
         camera.update();
@@ -82,7 +82,7 @@ public class MLGameScreen implements Screen {
 
     }
 
-    private void handleInput()
+    private void handleInput(float delta)
     {
         boolean firstTouch = Gdx.input.isTouched(0);
         boolean secondTouch = Gdx.input.isTouched(1);
@@ -98,7 +98,7 @@ public class MLGameScreen implements Screen {
         }
         else if (firstTouch)
         {
-            player.moveTo(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            player.moveTo(delta, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
             //camera.position.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0);
         }
     }

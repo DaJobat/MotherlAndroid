@@ -1,1 +1,2 @@
 when drawing map on screen, need to make sure that tiles hidden by other tiles don't draw, also need to make sure that background layer draws first, then middle, then foreground
+probably want to make sure player move speed isn't final so that it can be altered by pickups, unless we use multipliers. actually, on second thought having final base move speed is a good move, multipliers for upgrades.
