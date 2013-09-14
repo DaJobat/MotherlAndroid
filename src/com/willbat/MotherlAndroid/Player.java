@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Willeh
@@ -36,7 +38,7 @@ public class Player {
         Vector2 current = position;
         Vector2 destination = new Vector2(x, y);
         Vector2 direction = destination.sub(current).nor();
-        Vector2 newPosition = current.add(direction.mul(MOV_SPEED*delta));
+        Vector2 newPosition = current.add(direction.mul(MOV_SPEED).mul(delta));
         position = newPosition;
     }
 }
