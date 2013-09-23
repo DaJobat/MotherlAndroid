@@ -18,13 +18,14 @@ public class Player {
 
     private Sprite sprite;
     private Texture texture;
-    public static final float MOV_SPEED = 200f; //Movement speed in pixels per tick or something
-    private Vector2 screenPosition;
-    private Vector3 absolutePosition;
+    public static final float MOV_SPEED = 0.2f; //Movement speed in pixels per tick or something
+    private float centreX = Gdx.graphics.getWidth()/2;
+    private float centreY = Gdx.graphics.getHeight()/2;
+    private Vector2 position;
 
     public Player()
     {
-        screenPosition = new Vector2(0,0);
+        position = new Vector2(0, Gdx.graphics.getHeight());
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
     }
@@ -33,18 +34,24 @@ public class Player {
     {
 //        draw();
     }
-    public void draw(SpriteBatch batch) {
-        sprite.setX(screenPosition.x);
-        sprite.setY(screenPosition.y);
+
+    public void draw(SpriteBatch batch, ExtendedCamera camera) {
+        sprite.setX(position.x);
+        sprite.setY(position.y);
+
+        camera.translate(position.x - camera.position.x, position.y - camera.position.y, 0);
+
         sprite.draw(batch);
     }
-    public void moveTo(float delta, int x, int y){
-        Vector2 current = screenPosition;
+
+    public void move(float delta, int x, int y){
         Vector2 destination = new Vector2(x, y);
-        Vector2 direction = destination.sub(current).nor();
-        Vector2 newPosition = current.add(direction.mul(MOV_SPEED).mul(delta));
-        screenPosition = newPosition;
+        Vector2 centre = new Vector2(centreX, centreY);
+        Vector2 direction = destination.sub(centre);
+        Vector2 moveAmount = direction.mul(MOV_SPEED).mul(delta);
+        position = position.add(moveAmount);
     }
+
     public void getAbsolutePosition()
     {
 
