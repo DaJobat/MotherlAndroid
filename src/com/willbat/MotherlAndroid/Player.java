@@ -45,7 +45,7 @@ public class Player {
         Vector2 newPosition = current.add(direction.mul(MOV_SPEED).mul(delta));
         screenPosition = newPosition;
     }
-    public void getRelativePosition()
+    public void getAbsolutePosition()
     {
 
     }

@@ -1,7 +1,9 @@
 package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 
 /**
  * This class contains the map of tiles that is the rendered game world
@@ -64,7 +66,7 @@ public class Map
         }
     }
 
-    public void draw(SpriteBatch batch)
+    public void draw(SpriteBatch batch, ExtendedCamera camera)
     {
         int layerNumber = 0;
         for (Tile[][] columnRow : tiles)
@@ -75,25 +77,32 @@ public class Map
                 int rowNumber = 0;
                 for (Tile tile : row)
                 {
-                    if (layerNumber == 0)
+                    tile.isDrawn = false;
+                    if (camera.frustum.boundsInFrustum(convertRectToBoundingBox(tile.tileSprite.getBoundingRectangle())))
                     {
-                        if (tile != null && !tiles[layerNumber+2][columnNumber][rowNumber].visible && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                        if (layerNumber == 0)
                         {
-                            tile.draw(batch);
+                            if (tile != null && !tiles[layerNumber+2][columnNumber][rowNumber].visible && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                            {
+                                tile.draw(batch);
+                                tile.isDrawn = true;
+                            }
                         }
-                    }
-                    else if (layerNumber == 1)
-                    {
-                        if (tile != null && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                        else if (layerNumber == 1)
                         {
-                            tile.draw(batch);
+                            if (tile != null && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                            {
+                                tile.draw(batch);
+                                tile.isDrawn = true;
+                            }
                         }
-                    }
-                    else if (layerNumber == 2)
-                    {
-                        if (tile != null && tile.visible)
+                        else if (layerNumber == 2)
                         {
-                            tile.draw(batch);
+                            if (tile != null && tile.visible)
+                            {
+                                tile.draw(batch);
+                                tile.isDrawn = true;
+                            }
                         }
                     }
                     rowNumber++;
@@ -102,6 +111,11 @@ public class Map
             }
             layerNumber++;
         }
+    }
+    private BoundingBox convertRectToBoundingBox(Rectangle rectangle)
+    {
+        BoundingBox bBox = new BoundingBox(new Vector3(rectangle.getX(), rectangle.getY(), 0), new Vector3(rectangle.getX() + rectangle.getWidth(), rectangle.getY() - rectangle.getHeight(), 0));
+        return bBox;
     }
 
     private class Chunk

@@ -19,6 +19,7 @@ public class Tile
     protected boolean visible;
     private int layer;
     private Vector3 absolutePosition;
+    public boolean isDrawn;
 
     public Tile(Tiletype type, int x, int y)
     {
@@ -30,6 +31,7 @@ public class Tile
         tileSprite.setX(x * tileSprite.getWidth());
         tileSprite.setY(-y * tileSprite.getHeight() + (Gdx.graphics.getHeight() - tileSprite.getHeight()));
         mineLevel = type.mineLevel;
+        isDrawn = false;
     }
 
     private int[] getTexture(int textureLocation)

@@ -42,11 +42,11 @@ public class MLGameScreen implements Screen {
         handleInput(delta);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl20.glClearColor(100f / 255, 149f / 255, 237f / 255, 1.0F);
-        camera.zoom = 0.3f;
+        camera.zoom = 1f;
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        map.draw(batch);
+        map.draw(batch, camera);
         player.draw(batch);
         batch.end();
         debugBatch.begin();
