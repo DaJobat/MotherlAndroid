@@ -114,7 +114,7 @@ public class Map
     }
     private BoundingBox convertRectToBoundingBox(Rectangle rectangle)
     {
-        BoundingBox bBox = new BoundingBox(new Vector3(rectangle.getX(), rectangle.getY(), 0), new Vector3(rectangle.getX() + rectangle.getWidth(), rectangle.getY() - rectangle.getHeight(), 0));
+        BoundingBox bBox = new BoundingBox(new Vector3(rectangle.getX(), rectangle.getY(), 0), new Vector3(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight(), 0));
         return bBox;
     }
 
