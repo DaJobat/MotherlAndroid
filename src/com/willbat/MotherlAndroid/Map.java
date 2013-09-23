@@ -1,6 +1,7 @@
 package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * This class contains the map of tiles that is the rendered game world
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Map
 {
     Tile[][][] tiles;
+    Chunk currentChunk;
 
     public Map(int width, int height)
     {
@@ -21,6 +23,14 @@ public class Map
     public Map(String filename)
     {
 
+    }
+
+    public void update(Vector3 playerPosition)
+    {
+//        if (playerPosition.y )
+//        {
+//
+//        }
     }
 
     private void generateMap()
@@ -91,6 +101,15 @@ public class Map
                 columnNumber++;
             }
             layerNumber++;
+        }
+    }
+
+    private class Chunk
+    {
+        protected Vector3 size;
+        public Chunk()
+        {
+            size = new Vector3(10,10,3);
         }
     }
 }

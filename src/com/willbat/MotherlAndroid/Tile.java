@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
 
@@ -16,6 +17,8 @@ public class Tile
     protected Texture texture;
     protected int mineLevel;
     protected boolean visible;
+    private int layer;
+    private Vector3 absolutePosition;
 
     public Tile(Tiletype type, int x, int y)
     {

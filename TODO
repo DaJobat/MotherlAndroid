@@ -1,6 +1,7 @@
+high to low priority
 TODO: add map layers to map class, hud layer etc
 TODO: load maps from files
 TODO: add chunk loading for map
-TODO: Make a player class
 TODO: menu system
 TODO: implement some kind of scaling based on screen size and aspect ratio
+TODO: Extend player class with abilities etc
