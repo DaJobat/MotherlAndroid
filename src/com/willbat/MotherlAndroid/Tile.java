@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 
 import java.util.Random;
 
@@ -20,6 +22,7 @@ public class Tile
     private int layer;
     private Vector3 absolutePosition;
     public boolean isDrawn;
+    public BoundingBox boundingBox;
 
     public Tile(Tiletype type, int x, int y)
     {
@@ -30,6 +33,7 @@ public class Tile
         tileSprite = new Sprite(texture,texLocation[0], texLocation[1],32,32);
         tileSprite.setX(x * tileSprite.getWidth());
         tileSprite.setY(-y * tileSprite.getHeight() + (Gdx.graphics.getHeight() - tileSprite.getHeight()));
+        setBoundingBox();
         mineLevel = type.mineLevel;
         isDrawn = false;
     }
@@ -50,5 +54,11 @@ public class Tile
 
     public void draw(SpriteBatch batch) {
         tileSprite.draw(batch);
+    }
+
+    private void setBoundingBox()
+    {
+        Rectangle rectangle = tileSprite.getBoundingRectangle();
+        boundingBox = new BoundingBox(new Vector3(rectangle.getX(), rectangle.getY(), 0), new Vector3(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight(), 0));
     }
 }

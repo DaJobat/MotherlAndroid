@@ -1,9 +1,7 @@
 package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.BoundingBox;
 
 /**
  * This class contains the map of tiles that is the rendered game world
@@ -78,7 +76,7 @@ public class Map
                 for (Tile tile : row)
                 {
                     tile.isDrawn = false;
-                    if (camera.frustum.boundsInFrustum(convertRectToBoundingBox(tile.tileSprite.getBoundingRectangle())))
+                    if (camera.frustum.boundsInFrustum(tile.boundingBox))
                     {
                         if (layerNumber == 0)
                         {
@@ -111,11 +109,6 @@ public class Map
             }
             layerNumber++;
         }
-    }
-    private BoundingBox convertRectToBoundingBox(Rectangle rectangle)
-    {
-        BoundingBox bBox = new BoundingBox(new Vector3(rectangle.getX(), rectangle.getY(), 0), new Vector3(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight(), 0));
-        return bBox;
     }
 
     private class Chunk
