@@ -20,15 +20,15 @@ public enum Tiletype
     // This refers to the level of upgrade needed for the drill
     public int mineLevel;
     // This says whether the tile is solid or not
-    public boolean solid;
+    public boolean collides;
     //This sets the layer of the map the tile should belong to. 0 is background, 1 is middle, 2 is foreground
     public int mapLevel;
 
-    Tiletype(int mineLevel, int textureLocation, boolean solid, int mapLevel)
+    Tiletype(int mineLevel, int textureLocation, boolean collides, int mapLevel)
     {
         this.textureLocation = textureLocation;
         this.mineLevel = mineLevel;
-        this.solid = solid;
+        this.collides = collides;
         this.mapLevel = mapLevel;
     }
 }

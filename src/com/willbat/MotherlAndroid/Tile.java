@@ -21,10 +21,11 @@ public class Tile
     protected boolean visible;
     private int layer;
     private Vector3 absolutePosition;
+    public boolean collides;
     public boolean isDrawn;
     public BoundingBox boundingBox;
 
-    public Tile(Tiletype type, int x, int y)
+    public Tile(Tiletype type, int x, int y, boolean collides)
     {
         // Constructor for each tile.
         visible = true;
@@ -35,6 +36,7 @@ public class Tile
         tileSprite.setY(-y * tileSprite.getHeight() + (Gdx.graphics.getHeight() - tileSprite.getHeight()));
         setBoundingBox();
         mineLevel = type.mineLevel;
+        this.collides = collides;
         isDrawn = false;
     }
 
