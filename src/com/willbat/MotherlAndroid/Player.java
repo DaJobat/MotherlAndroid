@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,10 +17,12 @@ public class Player {
 
     private Sprite sprite;
     private Texture texture;
-    public static final float MOV_SPEED = 0.2f; //Movement speed in pixels per tick or something
+    public static final float MAX_SPEED = 3f; //Das maximum speed
+    public static final float THRUSTER_POWER = 0.02f; //How strong the players movement thrusters are
     private float centreX = Gdx.graphics.getWidth()/2;
     private float centreY = Gdx.graphics.getHeight()/2;
     private Vector2 position;
+    private Vector2 velocity = new Vector2(0,0);
 
     public Player()
     {
@@ -30,26 +31,42 @@ public class Player {
         sprite = new Sprite(texture);
     }
 
-    public void update()
+    public void update(SpriteBatch batch, ExtendedCamera camera, float delta)
     {
-//        draw();
+        if(velocity.len() > MAX_SPEED){
+            velocity.div(velocity.len() / MAX_SPEED);
+        }
+
+        velocity.mul(0.99f);//Air resistance type deal, slows stuff down
+
+        velocity.add(0, -2f * delta); //Bit of gravity y'all
+        position = position.add(velocity);
+
+        if(position.x < 0){
+            position.add(-position.x, 0);
+        }
+
+        if(position.y < 0){
+            position.add(0, -position.y);
+        }
+        draw(batch, camera);
     }
 
     public void draw(SpriteBatch batch, ExtendedCamera camera) {
         sprite.setX(position.x);
         sprite.setY(position.y);
 
-        camera.translate(position.x - camera.position.x, position.y - camera.position.y, 0);
+        camera.translate((position.x + texture.getWidth()/2) - camera.position.x, (position.y + texture.getHeight()/2) - camera.position.y, 0);
 
         sprite.draw(batch);
     }
 
-    public void move(float delta, int x, int y){
+    public void move(int x, int y, float delta){
         Vector2 destination = new Vector2(x, y);
         Vector2 centre = new Vector2(centreX, centreY);
         Vector2 direction = destination.sub(centre);
-        Vector2 moveAmount = direction.mul(MOV_SPEED).mul(delta);
-        position = position.add(moveAmount);
+        Vector2 moveAmount = direction.mul(THRUSTER_POWER).mul(delta);
+        velocity.add(moveAmount);
     }
 
     public void getAbsolutePosition()

@@ -47,7 +47,7 @@ public class MLGameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         map.draw(batch, camera);
-        player.draw(batch, camera);
+        player.update(batch, camera, delta);
         batch.end();
         debugBatch.begin();
         renderDebug();
@@ -100,7 +100,7 @@ public class MLGameScreen implements Screen {
         }
         else if (firstTouch)
         {
-            player.move(delta, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+            player.move(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), delta);
             //camera.position.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0);
         }
     }
