@@ -3,6 +3,8 @@ package com.willbat.MotherlAndroid;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.Random;
+
 /**
  * This class contains the map of tiles that is the rendered game world
  * TODO: This will also contain the code used to generate the world and distribute minerals
@@ -13,6 +15,7 @@ public class Map
 {
     Tile[][][] tiles;
     Chunk currentChunk;
+    Random random = new Random();
 
     public Map(int width, int height)
     {
@@ -44,7 +47,7 @@ public class Map
                 int columnNumber = 0;
                 for (Tile tile : row)
                 {
-                    if (rowNumber < 2)
+                    if (rowNumber <= 2)
                     {
                         row[columnNumber] = new Tile(Tiletype.AIR, columnNumber, rowNumber);
                     }
@@ -54,7 +57,18 @@ public class Map
                     }
                     else
                     {
-                        row[columnNumber] = new Tile(Tiletype.COAL, columnNumber, rowNumber);
+                        if (random.nextInt(100)> 90)
+                        {
+                            row[columnNumber] = new Tile(Tiletype.SALT, columnNumber, rowNumber);
+                        }
+                        else if (random.nextInt(100)> 95)
+                        {
+                            row[columnNumber] = new Tile(Tiletype.COAL,columnNumber,rowNumber);
+                        }
+                        else
+                        {
+                            row[columnNumber] = new Tile(Tiletype.DIRT, columnNumber, rowNumber);
+                        }
                     }
                     columnNumber++;
                 }
@@ -76,27 +90,33 @@ public class Map
                 for (Tile tile : row)
                 {
                     tile.isDrawn = false;
-                    if (camera.frustum.boundsInFrustum(tile.boundingBox))
+                    if (layerNumber == 0)
                     {
-                        if (layerNumber == 0)
+                        if (tile != null && !tiles[layerNumber+2][columnNumber][rowNumber].visible && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
                         {
-                            if (tile != null && !tiles[layerNumber+2][columnNumber][rowNumber].visible && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                            if (camera.frustum.boundsInFrustum(tile.boundingBox))
                             {
                                 tile.draw(batch);
                                 tile.isDrawn = true;
                             }
                         }
-                        else if (layerNumber == 1)
+                    }
+                    else if (layerNumber == 1)
+                    {
+                        if (tile != null && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
                         {
-                            if (tile != null && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                            if (camera.frustum.boundsInFrustum(tile.boundingBox))
                             {
                                 tile.draw(batch);
                                 tile.isDrawn = true;
                             }
                         }
-                        else if (layerNumber == 2)
+                    }
+                    else if (layerNumber == 2)
+                    {
+                        if (tile != null && tile.visible)
                         {
-                            if (tile != null && tile.visible)
+                            if (camera.frustum.boundsInFrustum(tile.boundingBox))
                             {
                                 tile.draw(batch);
                                 tile.isDrawn = true;

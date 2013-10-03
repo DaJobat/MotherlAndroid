@@ -10,11 +10,11 @@ package com.willbat.MotherlAndroid;
 public enum Tiletype
 {
     // Tiletype is formatted in the following manner:
-    // NAME (Texture, Mine Level,)
-    AIR(0,0,false,2),
-    DIRT(0,0,true,2),
-    SALT(1,0,true,2),
-    COAL(2,1,true,2);
+    // NAME (Texture, Mine Level, collides, mapLevel, visible)
+    AIR(0,0,false,2, false),
+    DIRT(1,0,true,2, true),
+    SALT(2,0,true,2, true),
+    COAL(3,1,true,2, true);
     // This refers to the column of the tilesheet that corresponds to this material
     public int textureLocation;
     // This refers to the level of upgrade needed for the drill
@@ -23,12 +23,15 @@ public enum Tiletype
     public boolean collides;
     //This sets the layer of the map the tile should belong to. 0 is background, 1 is middle, 2 is foreground
     public int mapLevel;
+    //this sets whether the tile is visible or not
+    public boolean visible;
 
-    Tiletype(int mineLevel, int textureLocation, boolean collides, int mapLevel)
+    Tiletype(int textureLocation, int mineLevel, boolean collides, int mapLevel, boolean visible)
     {
         this.textureLocation = textureLocation;
         this.mineLevel = mineLevel;
         this.collides = collides;
         this.mapLevel = mapLevel;
+        this.visible = visible;
     }
 }

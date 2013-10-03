@@ -100,7 +100,7 @@ public class MLGameScreen implements Screen {
         }
         else if (firstTouch)
         {
-            player.move(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), delta);
+            player.moveTo(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), delta);
             //camera.position.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0);
         }
     }
