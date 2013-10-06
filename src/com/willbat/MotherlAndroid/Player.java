@@ -2,6 +2,7 @@ package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -15,37 +16,55 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Player {
 
+    private ExtendedCamera camera;
     private Sprite sprite;
     private Texture texture;
+
     public static final float MAX_SPEED = 3f; //Das maximum speed
     public static final float THRUSTER_POWER = 0.02f; //How strong the players movement thrusters are
+
     private float centreX = Gdx.graphics.getWidth()/2;
     private float centreY = Gdx.graphics.getHeight()/2;
+    private float zoomLevel;
     private Vector2 position;
     private Vector2 velocity = new Vector2(0,0);
     private Vector2 movementThisFrame = new Vector2(0,0);
 
-    public Player()
+    private BitmapFont font;
+
+    public Player(ExtendedCamera camera, float zoomLevel)
     {
+        font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
+        this.camera = camera;
+        this.zoomLevel = zoomLevel;
         position = new Vector2(0, Gdx.graphics.getHeight());
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
+        position.x = 300;
     }
 
-    public void update(SpriteBatch batch, ExtendedCamera camera, float delta)
+    public void update(SpriteBatch batch, float delta)
     {
         handleInput(delta);
         move(delta);
-        draw(batch, camera);
+        draw(batch);
     }
 
-    public void draw(SpriteBatch batch, ExtendedCamera camera) {
+    public void draw(SpriteBatch batch) {
         sprite.setX(position.x);
         sprite.setY(position.y);
 
-        camera.translate((position.x + texture.getWidth()/2) - camera.position.x, (position.y + texture.getHeight()/2) - camera.position.y, 0);
+        updateCamera();
 
         sprite.draw(batch);
+    }
+
+    public void updateCamera(){
+        if(position.x + texture.getWidth()/2 < Gdx.graphics.getWidth()/2 * zoomLevel){
+            camera.translate(((Gdx.graphics.getWidth()/2)*zoomLevel) - camera.position.x, (position.y + texture.getHeight()/2) - camera.position.y, 0);
+        }else{
+            camera.translate((position.x + texture.getWidth()/2) - camera.position.x, (position.y + texture.getHeight()/2) - camera.position.y, 0);
+        }
     }
 
     public void handleInput(float delta) {
@@ -90,10 +109,12 @@ public class Player {
 
         if(position.x < 0){
             position.add(-position.x, 0);
+            velocity.x = 0;
         }
 
         if(position.y < 0){
             position.add(0, -position.y);
+            velocity.y = 0;
         }
         // if nothing in the way
         velocity.add(movementThisFrame);

@@ -21,6 +21,7 @@ public class MLGameScreen implements Screen {
     Player player;
     ExtendedCamera camera;
     BitmapFont font;
+    float zoomLevel = 0.3f;
    // List drawables;
 
     public MLGameScreen(MLCore game)
@@ -31,8 +32,8 @@ public class MLGameScreen implements Screen {
         camera.update();
         batch = new SpriteBatch();
         debugBatch = new SpriteBatch();
-        map = new Map(10,10);
-        player = new Player();
+        map = new Map(30,30);
+        player = new Player(camera, zoomLevel);
         font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
     }
 
@@ -42,12 +43,12 @@ public class MLGameScreen implements Screen {
         handleInput(delta);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl20.glClearColor(100f / 255, 149f / 255, 237f / 255, 1.0F);
-        camera.zoom = 0.3f;
+        camera.zoom = zoomLevel;
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         map.draw(batch, camera);
-        player.update(batch, camera, delta);
+        player.update(batch, delta);
         batch.end();
         debugBatch.begin();
         renderDebug();
