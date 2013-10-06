@@ -32,7 +32,7 @@ public class MLGameScreen implements Screen {
         camera.update();
         batch = new SpriteBatch();
         debugBatch = new SpriteBatch();
-        map = new Map(30,30);
+        map = new Map(30,20);
         player = new Player(camera, zoomLevel);
         font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
     }
@@ -40,7 +40,6 @@ public class MLGameScreen implements Screen {
     @Override
     public void render(float delta)
     {
-        handleInput(delta);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl20.glClearColor(100f / 255, 149f / 255, 237f / 255, 1.0F);
         camera.zoom = zoomLevel;
@@ -83,27 +82,6 @@ public class MLGameScreen implements Screen {
     @Override
     public void dispose() {
 
-    }
-
-    private void handleInput(float delta)
-    {
-        boolean firstTouch = Gdx.input.isTouched(0);
-        boolean secondTouch = Gdx.input.isTouched(1);
-        boolean thirdTouch = Gdx.input.isTouched(2);
-
-        if (firstTouch && secondTouch && thirdTouch)
-        {
-
-        }
-        else if (firstTouch && secondTouch)
-        {
-
-        }
-        else if (firstTouch)
-        {
-            player.moveTo(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), delta);
-            //camera.position.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0);
-        }
     }
 
     public void renderDebug() {

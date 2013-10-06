@@ -1,6 +1,6 @@
 high to low priority
 TODO: add map layers to map class, hud layer etc
-TODO: load maps from files
+TODO: load maps from files. this will be done from JSON files
 TODO: add chunk loading for map
 TODO: menu system
 TODO: implement some kind of scaling based on screen size and aspect ratio

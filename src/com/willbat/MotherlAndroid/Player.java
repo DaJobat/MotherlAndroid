@@ -2,9 +2,9 @@ package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -26,21 +26,20 @@ public class Player {
     private float centreX = Gdx.graphics.getWidth()/2;
     private float centreY = Gdx.graphics.getHeight()/2;
     private float zoomLevel;
+    private Vector2 absolutePosition; // this is the players position in the world
     private Vector2 position;
     private Vector2 velocity = new Vector2(0,0);
     private Vector2 movementThisFrame = new Vector2(0,0);
-
-    private BitmapFont font;
+    private Rectangle boundingRectangle; // this should be replaced with a bounding polygon when art is finalised
 
     public Player(ExtendedCamera camera, float zoomLevel)
     {
-        font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
         this.camera = camera;
         this.zoomLevel = zoomLevel;
         position = new Vector2(0, Gdx.graphics.getHeight());
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
-        position.x = 300;
+        boundingRectangle = sprite.getBoundingRectangle();
     }
 
     public void update(SpriteBatch batch, float delta)
@@ -98,6 +97,7 @@ public class Player {
 
     public void move(float delta)
     {
+        // need to put collision in here so that the game can know whether to move the player or not.
         if(velocity.len() > MAX_SPEED){
             velocity.div(velocity.len() / MAX_SPEED);
         }
@@ -105,6 +105,7 @@ public class Player {
         velocity.mul(0.99f);//Air resistance type deal, slows stuff down
 
         velocity.add(0, -2f * delta); //Bit of gravity y'all
+        velocity.add(movementThisFrame);
         position = position.add(velocity);
 
         if(position.x < 0){
@@ -116,8 +117,6 @@ public class Player {
             position.add(0, -position.y);
             velocity.y = 0;
         }
-        // if nothing in the way
-        velocity.add(movementThisFrame);
     }
     public void getAbsolutePosition()
     {

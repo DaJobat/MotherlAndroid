@@ -18,10 +18,10 @@ public class Tile
     protected Sprite tileSprite;
     protected int mineLevel;
     protected boolean visible;
-    private int layer;
     private Vector3 absolutePosition;
     public boolean collides;
     public boolean isDrawn;
+    public Rectangle boundingRectangle;
     public BoundingBox boundingBox;
     Tiletype type;
 
@@ -36,6 +36,7 @@ public class Tile
         tileSprite.setX(x * tileSprite.getWidth());
         tileSprite.setY(-y * tileSprite.getHeight() + (Gdx.graphics.getHeight() - tileSprite.getHeight()));
         setBoundingBox();
+        boundingRectangle = tileSprite.getBoundingRectangle();
         mineLevel = type.mineLevel;
         this.collides = type.collides;
         this.visible = type.visible;
@@ -65,5 +66,9 @@ public class Tile
     {
         Rectangle rectangle = tileSprite.getBoundingRectangle();
         boundingBox = new BoundingBox(new Vector3(rectangle.getX(), rectangle.getY(), 0), new Vector3(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight(), 0));
+    }
+    public void getAbsolutePosition()
+    {
+
     }
 }
