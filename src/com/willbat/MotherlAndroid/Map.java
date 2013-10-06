@@ -1,6 +1,7 @@
 package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
@@ -133,10 +134,22 @@ public class Map
 
     private class Chunk
     {
-        protected Vector3 size;
-        public Chunk()
+        protected Vector2 size;
+        public Vector2 chunkLocation;
+
+        public Chunk(Vector2 chunkLocation, boolean generate)
         {
-            size = new Vector3(10,10,3);
+            this.chunkLocation = chunkLocation;
+            size = new Vector2(30,20);
+            if (generate)
+            {
+                //generate chunk if it is not being loaded from a file
+            }
+            else
+            {
+                //load chunk from file.
+
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
-when drawing map on screen, need to make sure that tiles hidden by other tiles don't draw, also need to make sure that background layer draws first, then middle, then foreground
-probably want to make sure player move speed isn't final so that it can be altered by pickups, unless we use multipliers. actually, on second thought having final base move speed is a good move, multipliers for upgrades.
 for drawing chunks, load maybe 30x30. actually load more horizontally? 900 tiles. check performance.
 0.3f seems to be a good zoom level, maybe still too far
+
+two alternatives for chunk saving/loading, either we have all chunks in one file which could be an issue both due to size and readability for the program, or we have a seperate file for each chunk that is maybe compressed and decompressed at runtime
+
+for drawing tiles, replace bounds in frustum with some kind of absolute position thing, this will make the maths faster and improve performance of the program
