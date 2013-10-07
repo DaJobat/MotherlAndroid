@@ -1,4 +1,5 @@
 high to low priority
+TODO: Highest priority, need to ensure that the chunk code all works. get on this
 TODO: add map layers to map class, hud layer etc
 TODO: load maps from files. this will be done from JSON files
 TODO: add chunk loading for map

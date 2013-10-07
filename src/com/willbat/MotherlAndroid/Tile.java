@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.BoundingBox;
 
@@ -18,29 +19,37 @@ public class Tile
     protected Sprite tileSprite;
     protected int mineLevel;
     protected boolean visible;
-    private Vector3 absolutePosition;
+    public Vector2 chunk;
+    public Vector2 chunkPosition;
     public boolean collides;
     public boolean isDrawn;
     public Rectangle boundingRectangle;
     public BoundingBox boundingBox;
-    Tiletype type;
+    public Tiletype type;
 
-    public Tile(Tiletype tiletype, int x, int y)
+    public Tile(Vector2 chunk, Vector2 chunkPosition)
     {
         // Constructor for each tile.
-        visible = true;
-        type = tiletype;
+        this.chunk = chunk;
+        this.chunkPosition = chunkPosition;
+
+        setTileType(); // sets tile type based on location in world
+
+        tileSprite.setX(this.chunkPosition.x * tileSprite.getWidth());
+        tileSprite.setY(-this.chunkPosition.y * tileSprite.getHeight() + (Gdx.graphics.getHeight() - tileSprite.getHeight()));
+        setBoundingBox();
+        boundingRectangle = tileSprite.getBoundingRectangle();
+        isDrawn = false;
+    }
+
+    private void setTileType()
+    {
         Texture texture = new Texture(Gdx.files.internal("tilesheet.png"));
         int[] texLocation =  getTexture(texture, type.textureLocation);
         tileSprite = new Sprite(texture, texLocation[0], texLocation[1], 32, 32);
-        tileSprite.setX(x * tileSprite.getWidth());
-        tileSprite.setY(-y * tileSprite.getHeight() + (Gdx.graphics.getHeight() - tileSprite.getHeight()));
-        setBoundingBox();
-        boundingRectangle = tileSprite.getBoundingRectangle();
         mineLevel = type.mineLevel;
         this.collides = type.collides;
         this.visible = type.visible;
-        isDrawn = false;
     }
 
     private int[] getTexture(Texture texture, int textureLocation)
@@ -58,7 +67,8 @@ public class Tile
         return result;
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(SpriteBatch batch)
+    {
         tileSprite.draw(batch);
     }
 
@@ -66,9 +76,5 @@ public class Tile
     {
         Rectangle rectangle = tileSprite.getBoundingRectangle();
         boundingBox = new BoundingBox(new Vector3(rectangle.getX(), rectangle.getY(), 0), new Vector3(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight(), 0));
-    }
-    public void getAbsolutePosition()
-    {
-
     }
 }

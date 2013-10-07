@@ -1,8 +1,10 @@
 package com.willbat.MotherlAndroid;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Json;
 
 import java.util.Random;
 
@@ -14,14 +16,15 @@ import java.util.Random;
  */
 public class Map
 {
-    Tile[][][] tiles;
-    Chunk currentChunk;
+    Chunk[] chunks;
     Random random = new Random();
 
     public Map(int width, int height)
     {
-        tiles = new Tile[3][height][width];
-        generateMap();
+        for (Chunk chunk : chunks)
+        {
+            chunk.generateChunk(width, height);
+        }
     }
 
     public Map(String filename)
@@ -29,126 +32,157 @@ public class Map
 
     }
 
-    public void update(Vector3 playerPosition)
-    {
-//        if (playerPosition.y )
-//        {
-//
-//        }
-    }
-
-    private void generateMap()
-    {
-        //int layerNumber = 0;
-        for (Tile[][] columnRow : tiles)
-        {
-            int rowNumber = 0;
-            for (Tile[] row : columnRow)
-            {
-                int columnNumber = 0;
-                for (Tile tile : row)
-                {
-                    if (rowNumber <= 2)
-                    {
-                        row[columnNumber] = new Tile(Tiletype.AIR, columnNumber, rowNumber);
-                    }
-                    else if (rowNumber > 2 && rowNumber < 5)
-                    {
-                        row[columnNumber] = new Tile(Tiletype.DIRT, columnNumber, rowNumber);
-                    }
-                    else
-                    {
-                        if (random.nextInt(100)> 90)
-                        {
-                            row[columnNumber] = new Tile(Tiletype.SALT, columnNumber, rowNumber);
-                        }
-                        else if (random.nextInt(100)> 95)
-                        {
-                            row[columnNumber] = new Tile(Tiletype.COAL,columnNumber,rowNumber);
-                        }
-                        else
-                        {
-                            row[columnNumber] = new Tile(Tiletype.DIRT, columnNumber, rowNumber);
-                        }
-                    }
-                    columnNumber++;
-                }
-                rowNumber++;
-            }
-            //layerNumber++;
-        }
-    }
-
     public void draw(SpriteBatch batch, ExtendedCamera camera)
     {
-        int layerNumber = 0;
-        for (Tile[][] columnRow : tiles)
+        for (Chunk chunk : chunks)
         {
-            int columnNumber = 0;
-            for (Tile[] row : columnRow)
-            {
-                int rowNumber = 0;
-                for (Tile tile : row)
-                {
-                    tile.isDrawn = false;
-                    if (layerNumber == 0)
-                    {
-                        if (tile != null && !tiles[layerNumber+2][columnNumber][rowNumber].visible && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
-                        {
-                            if (camera.frustum.boundsInFrustum(tile.boundingBox))
-                            {
-                                tile.draw(batch);
-                                tile.isDrawn = true;
-                            }
-                        }
-                    }
-                    else if (layerNumber == 1)
-                    {
-                        if (tile != null && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
-                        {
-                            if (camera.frustum.boundsInFrustum(tile.boundingBox))
-                            {
-                                tile.draw(batch);
-                                tile.isDrawn = true;
-                            }
-                        }
-                    }
-                    else if (layerNumber == 2)
-                    {
-                        if (tile != null && tile.visible)
-                        {
-                            if (camera.frustum.boundsInFrustum(tile.boundingBox))
-                            {
-                                tile.draw(batch);
-                                tile.isDrawn = true;
-                            }
-                        }
-                    }
-                    rowNumber++;
-                }
-                columnNumber++;
-            }
-            layerNumber++;
+            chunk.draw(batch, camera);
         }
     }
 
     private class Chunk
     {
+        Json json = new Json();
         protected Vector2 size;
-        public Vector2 chunkLocation;
+        public Vector2 chunkPosition;
+        Tile[][][] tiles;
 
-        public Chunk(Vector2 chunkLocation, boolean generate)
+        public Chunk(Vector2 chunkPosition, boolean generate)
         {
-            this.chunkLocation = chunkLocation;
-            size = new Vector2(30,20);
+            this.chunkPosition = chunkPosition;
+            size = new Vector2(20,20);
             if (generate)
             {
-                //generate chunk if it is not being loaded from a file
+                generateChunk(20, 20);
             }
             else
             {
                 //load chunk from file.
+                loadChunk();
+            }
+        }
 
+        private void generateChunk(int width, int height)
+        {
+            tiles = new Tile[3][height][width];
+            for (Tile[][] columnRow : tiles)
+            {
+                int rowNumber = 0;
+                for (Tile[] row : columnRow)
+                {
+                    int columnNumber = 0;
+                    for (Tile tile : row)
+                    {
+                        row[columnNumber] = new Tile(new Vector2(columnNumber, rowNumber), chunkPosition);
+                    }
+                    columnNumber++;
+                }
+                rowNumber++;
+            }
+        }
+
+        private boolean loadChunk()
+        {
+            boolean success = false;
+
+            return success;
+        }
+
+        private boolean saveChunk()
+        {
+            boolean success = false;
+            FileHandle handle = Gdx.files.external("chunk.data");
+            if (true)// check if chunk already exists in file
+            {
+                // overwrite chunk data, don't remove flag for chunk
+                for (Tile[][] columnRow : tiles)
+                {
+                    for(Tile[] row : columnRow)
+                    {
+                        for(Tile tile : row)
+                        {
+                            if (Gdx.files.isExternalStorageAvailable())
+                            {
+                                //handle.writeString(json.prettyPrint(tile), true); // use this if need legibility in files.
+                                handle.writeString(json.toJson(tile), true);
+                            }
+                        }
+                    }
+                }
+                // add end flag to chunk
+            }
+            else
+            {
+                // insert chunk data in correct area of file
+                for (Tile[][] columnRow : tiles)
+                {
+                    for(Tile[] row : columnRow)
+                    {
+                        for(Tile tile : row)
+                        {
+                            if (Gdx.files.isExternalStorageAvailable())
+                            {
+                                //handle.writeString(json.prettyPrint(tile), true); // use this if need legibility in files.
+                                handle.writeString(json.toJson(tile), true);
+                            }
+                        }
+                    }
+                }
+                // add end flag to chunk
+            }
+            return success;
+        }
+
+        public void draw(SpriteBatch batch, ExtendedCamera camera)
+        {
+            int layerNumber = 0;
+            for (Tile[][] columnRow : tiles)
+            {
+                int columnNumber = 0;
+                for (Tile[] row : columnRow)
+                {
+                    int rowNumber = 0;
+                    for (Tile tile : row)
+                    {
+                        tile.isDrawn = false;
+                        if (layerNumber == 0)
+                        {
+                            if (tile != null && !tiles[layerNumber+2][columnNumber][rowNumber].visible && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                            {
+                                if (camera.frustum.boundsInFrustum(tile.boundingBox))
+                                {
+                                    tile.draw(batch);
+                                    tile.isDrawn = true;
+                                }
+                            }
+                        }
+                        else if (layerNumber == 1)
+                        {
+                            if (tile != null && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
+                            {
+                                if (camera.frustum.boundsInFrustum(tile.boundingBox))
+                                {
+                                    tile.draw(batch);
+                                    tile.isDrawn = true;
+                                }
+                            }
+                        }
+                        else if (layerNumber == 2)
+                        {
+                            if (tile != null && tile.visible)
+                            {
+                                if (camera.frustum.boundsInFrustum(tile.boundingBox))
+                                {
+                                    tile.draw(batch);
+                                    tile.isDrawn = true;
+                                }
+                            }
+                        }
+                        rowNumber++;
+                    }
+                    columnNumber++;
+                }
+                layerNumber++;
             }
         }
     }
