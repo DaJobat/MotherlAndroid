@@ -4,6 +4,11 @@ Chunk stuff:
 two alternatives for chunk saving/loading, either we have all chunks in one file which could be an issue both due to size and readability for the program, or we have a seperate file for each chunk that is maybe compressed and decompressed at runtime
 for drawing chunks, load maybe 30x30. actually load more horizontally? 900 tiles. check performance.
 will need to have 9 chunks loaded at a time, one for each direction and then one for the actual currently occupied chunk, therefore each chunk will need to be reasonably modest in size.
+at start of chunk file, have a list of chunks that exist and their location in the file - then just seek to this location to load chunk
+also means don't need to worry about position of chunk in file, can just have them in a random order and seek to it as long as the chunk data remains the same length
+even that can be overcome by just seeking through for a beginning flag and an end flag
+FUCKING IDEAL
+THAT IS A REALLY FUCKING GOOD IDEA HOLY SHIT
 
 Drawing stuff:
 for drawing tiles, replace bounds in frustum with some kind of absolute position thing, this will make the maths faster and improve performance of the program

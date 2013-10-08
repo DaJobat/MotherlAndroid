@@ -118,8 +118,4 @@ public class Player {
             velocity.y = 0;
         }
     }
-    public void getAbsolutePosition()
-    {
-
-    }
 }

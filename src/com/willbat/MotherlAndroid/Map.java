@@ -16,14 +16,17 @@ import java.util.Random;
  */
 public class Map
 {
+    /**
+     * The chunks variable contains the 9 chunks that are nearest the player at any one time.
+     */
     Chunk[] chunks;
     Random random = new Random();
 
-    public Map(int width, int height)
+    public Map()
     {
         for (Chunk chunk : chunks)
         {
-            chunk.generateChunk(width, height);
+            chunk = new Chunk(new Vector2(0,0));
         }
     }
 
@@ -45,20 +48,21 @@ public class Map
         Json json = new Json();
         protected Vector2 size;
         public Vector2 chunkPosition;
+        private boolean exists;
         Tile[][][] tiles;
 
-        public Chunk(Vector2 chunkPosition, boolean generate)
+        public Chunk(Vector2 chunkPosition)
         {
-            this.chunkPosition = chunkPosition;
+
             size = new Vector2(20,20);
-            if (generate)
+            if (exists) // if chunk already exists, load from file
             {
-                generateChunk(20, 20);
+                loadChunk();
             }
             else
             {
-                //load chunk from file.
-                loadChunk();
+
+                generateChunk(20, 20);
             }
         }
 
