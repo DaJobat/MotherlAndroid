@@ -2,6 +2,7 @@ package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,13 +27,14 @@ public class MLGameScreen implements Screen {
 
     public MLGameScreen(MLCore game)
     {
+        setupFileSystem();
         this.game = game;
         camera = new ExtendedCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         camera.setToOrtho(false);
         camera.update();
         batch = new SpriteBatch();
         debugBatch = new SpriteBatch();
-        map = new Map(20,20);
+        map = new Map("TestMap1");
         player = new Player(camera, zoomLevel);
         font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
     }
@@ -84,6 +86,18 @@ public class MLGameScreen implements Screen {
 
     }
 
+    private void setupFileSystem()
+    {
+        if (Gdx.files.isExternalStorageAvailable())
+        {
+            String extRoot = Gdx.files.getExternalStoragePath();
+            FileHandle directory = new FileHandle(extRoot.concat("/MotherlAndroid"));
+            if (!directory.exists())
+            {
+                directory.mkdirs();
+            }
+        }
+    }
     public void renderDebug() {
         font.setColor(0.0f,0.0f,0.0f,1.0f);
         CharSequence debugString = ("W: " + Gdx.graphics.getWidth() + ", H: " + Gdx.graphics.getHeight() + ", FPS: " + Gdx.graphics.getFramesPerSecond());

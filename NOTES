@@ -7,8 +7,14 @@ will need to have 9 chunks loaded at a time, one for each direction and then one
 at start of chunk file, have a list of chunks that exist and their location in the file - then just seek to this location to load chunk
 also means don't need to worry about position of chunk in file, can just have them in a random order and seek to it as long as the chunk data remains the same length
 even that can be overcome by just seeking through for a beginning flag and an end flag
-FUCKING IDEAL
-THAT IS A REALLY FUCKING GOOD IDEA HOLY SHIT
+maybe even have index as a seperate file so that it doesn't need to
+
+seperate index file has data for a single chunk on each line in the following format:
+chunknumber(in form x:y)|chunklocationinfile|chunklength
+so it would look like
+2:3|2100|32
+for chunk at (2,3), which occurs at line 2100 in the map file and is 32 lines long
+this will allow mldroid to easily look up all data for a chunk
 
 Drawing stuff:
 for drawing tiles, replace bounds in frustum with some kind of absolute position thing, this will make the maths faster and improve performance of the program

@@ -6,3 +6,4 @@ TODO: add chunk loading for map
 TODO: menu system
 TODO: implement some kind of scaling based on screen size and aspect ratio
 TODO: Extend player class with abilities etc
+TODO: Make a file functions class so we don't have redundant code all over the place. low priority, but would be useful

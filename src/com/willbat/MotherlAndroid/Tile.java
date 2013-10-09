@@ -17,11 +17,9 @@ import java.util.Random;
 public class Tile
 {
     protected Sprite tileSprite;
-    protected int mineLevel;
     protected boolean visible;
     public Vector2 chunk;
-    public Vector2 positionInChunk;
-    public boolean collides;
+    public Vector3 positionInChunk;
     public boolean isDrawn;
     public Rectangle boundingRectangle;
     public BoundingBox boundingBox;
@@ -36,7 +34,7 @@ public class Tile
     {
         // Constructor for each tile.
         this.chunk = chunk;
-        this.positionInChunk = positionInChunk;
+        this.positionInChunk = new Vector3(positionInChunk.x, positionInChunk.y, 2);
 
         setTileType(); // sets tile type based on location in world
 
@@ -55,9 +53,7 @@ public class Tile
         Texture texture = new Texture(Gdx.files.internal("tilesheet.png"));
         int[] texLocation =  getTexture(texture, type.textureLocation);
         tileSprite = new Sprite(texture, texLocation[0], texLocation[1], 32, 32);
-        mineLevel = type.mineLevel;
-        this.collides = type.collides;
-        this.visible = type.visible;
+        visible = type.visible;
     }
 
     private int[] getTexture(Texture texture, int textureLocation)
