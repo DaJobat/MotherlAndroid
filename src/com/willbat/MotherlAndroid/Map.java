@@ -86,7 +86,7 @@ public class Map
         int chunkLengthInFile = 0;
         int chunkLineInFile = 0;
         boolean changedSinceLastSaved = false;
-        Tile[][][] tiles;
+        Tile[][] tiles;
 
         public Chunk(Vector2 chunkPosition)
         {
@@ -109,19 +109,16 @@ public class Map
 
         private void generateChunk()
         {
-            tiles = new Tile[3][(int)size.y][(int)size.x];
-            for (Tile[][] columnRow : tiles)
+            tiles = new Tile[(int)size.y][(int)size.x];
+            int rowNumber = 0;
+            for (Tile[] row : tiles)
             {
-                int rowNumber = 0;
-                for (Tile[] row : columnRow)
+                for (int j = 0; j<row.length; j++)
                 {
-                    for (int j = 0; j<row.length; j++)
-                    {
-                        row[j] = new Tile(new Vector2(j, rowNumber), chunkPosition);
-                    }
+                    row[j] = new Tile(new Vector2(j, rowNumber), chunkPosition);
                 }
-                rowNumber++;
             }
+            rowNumber++;
         }
 
         private boolean loadChunk()
@@ -133,20 +130,17 @@ public class Map
             try
             {
                 currentLine = mapFileReader.readLine();
-                tiles = new Tile[3][(int)size.y][(int)size.x];
+                tiles = new Tile[(int)size.y][(int)size.x];
                 outsideloop:
-                for (Tile[][] columnRow : tiles)
+                for (Tile[] row : tiles)
                 {
-                    for (Tile[] row : columnRow)
+                    for (int j = 0; j<row.length; j++)
                     {
-                        for (int j = 0; j<row.length; j++)
+                        row[j] = json.fromJson(Tile.class, currentLine);
+                        currentLine = mapFileReader.readLine();
+                        if (currentLine ==null)
                         {
-                            row[j] = json.fromJson(Tile.class, currentLine);
-                            currentLine = mapFileReader.readLine();
-                            if (currentLine ==null)
-                            {
-                                break outsideloop;
-                            }
+                            break outsideloop;
                         }
                     }
                 }
@@ -188,16 +182,13 @@ public class Map
                     chunkLineInFile = i;
                     //this removes the old chunk data, now we append the new chunk data to the end of the file and
                     int j = 0;
-                    for (Tile[][] columnRow : tiles)
+                    for(Tile[] row : tiles)
                     {
-                        for(Tile[] row : columnRow)
+                        for(Tile tile : row)
                         {
-                            for(Tile tile : row)
-                            {
-                                // write tile as json to a new line
-                                pw.println(json.toJson(tile));
-                                j++;
-                            }
+                            // write tile as json to a new line
+                            pw.println(json.toJson(tile));
+                            j++;
                         }
                     }
                     pw.close();
@@ -242,16 +233,13 @@ public class Map
             else if (!checkChunkExists())
             {
                 // insert chunk data at end of file and put new chunk in index file
-                for (Tile[][] columnRow : tiles)
+                for(Tile[] row : tiles)
                 {
-                    for(Tile[] row : columnRow)
+                    for(Tile tile : row)
                     {
-                        for(Tile tile : row)
+                        if (Gdx.files.isExternalStorageAvailable())
                         {
-                            if (Gdx.files.isExternalStorageAvailable())
-                            {
-                                mapFile.writeString(json.toJson(tile), true);
-                            }
+                            mapFile.writeString(json.toJson(tile), true);
                         }
                     }
                 }
@@ -311,54 +299,20 @@ public class Map
 
         public void draw(SpriteBatch batch, ExtendedCamera camera)
         {
-            int layerNumber = 0;
-            for (Tile[][] columnRow : tiles)
+            for (Tile[] row : tiles)
             {
-                int columnNumber = 0;
-                for (Tile[] row : columnRow)
+                for (Tile tile : row)
                 {
-                    int rowNumber = 0;
-                    for (Tile tile : row)
+                    tile.isDrawn = false;
+                    if (tile != null && tile.visible)
                     {
-                        tile.isDrawn = false;
-                        if (layerNumber == 0)
+                        if (camera.frustum.boundsInFrustum(tile.boundingBox))
                         {
-                            if (tile != null && !tiles[layerNumber+2][columnNumber][rowNumber].visible && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
-                            {
-                                if (camera.frustum.boundsInFrustum(tile.boundingBox))
-                                {
-                                    tile.draw(batch);
-                                    tile.isDrawn = true;
-                                }
-                            }
+                            tile.draw(batch);
+                            tile.isDrawn = true;
                         }
-                        else if (layerNumber == 1)
-                        {
-                            if (tile != null && !tiles[layerNumber+1][columnNumber][rowNumber].visible && tile.visible)
-                            {
-                                if (camera.frustum.boundsInFrustum(tile.boundingBox))
-                                {
-                                    tile.draw(batch);
-                                    tile.isDrawn = true;
-                                }
-                            }
-                        }
-                        else if (layerNumber == 2)
-                        {
-                            if (tile != null && tile.visible)
-                            {
-                                if (camera.frustum.boundsInFrustum(tile.boundingBox))
-                                {
-                                    tile.draw(batch);
-                                    tile.isDrawn = true;
-                                }
-                            }
-                        }
-                        rowNumber++;
                     }
-                    columnNumber++;
                 }
-                layerNumber++;
             }
         }
     }

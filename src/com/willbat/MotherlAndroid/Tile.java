@@ -19,7 +19,7 @@ public class Tile
     protected Sprite tileSprite;
     protected boolean visible;
     public Vector2 chunk;
-    public Vector3 positionInChunk;
+    public Vector2 positionInChunk;
     public boolean isDrawn;
     public Rectangle boundingRectangle;
     public BoundingBox boundingBox;
@@ -34,7 +34,7 @@ public class Tile
     {
         // Constructor for each tile.
         this.chunk = chunk;
-        this.positionInChunk = new Vector3(positionInChunk.x, positionInChunk.y, 2);
+        this.positionInChunk = positionInChunk;
 
         setTileType(); // sets tile type based on location in world
 
