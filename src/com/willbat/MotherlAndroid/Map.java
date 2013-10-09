@@ -115,10 +115,10 @@ public class Map
             {
                 for (int j = 0; j<row.length; j++)
                 {
-                    row[j] = new Tile(new Vector2(j, rowNumber), chunkPosition);
+                    row[j] = new Tile(chunkPosition, new Vector2(j, rowNumber));
                 }
+                rowNumber++;
             }
-            rowNumber++;
         }
 
         private boolean loadChunk()
