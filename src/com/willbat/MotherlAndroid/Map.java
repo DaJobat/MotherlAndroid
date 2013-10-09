@@ -75,7 +75,7 @@ public class Map
 
         public Chunk(Vector2 chunkPosition)
         {
-
+            this.chunkPosition = chunkPosition;
             size = new Vector2(20, 20);
             if (checkChunkExists()) // if chunk already exists, load from file
             {
@@ -83,7 +83,7 @@ public class Map
             }
             else
             {
-                generateChunk(20, 20);
+                generateChunk();
             }
         }
 
@@ -92,9 +92,9 @@ public class Map
             saveChunk();
         }
 
-        private void generateChunk(int width, int height)
+        private void generateChunk()
         {
-            tiles = new Tile[3][height][width];
+            tiles = new Tile[3][(int)size.y][(int)size.x];
             for (Tile[][] columnRow : tiles)
             {
                 int rowNumber = 0;
@@ -112,7 +112,34 @@ public class Map
         private boolean loadChunk()
         {
             boolean success = false;
-
+            mapFileReader = mapFile.reader(8192);
+            String currentLine;
+            int i = 0;
+            try
+            {
+                currentLine = mapFileReader.readLine();
+                tiles = new Tile[3][(int)size.y][(int)size.x];
+                outsideloop:
+                for (Tile[][] columnRow : tiles)
+                {
+                    for (Tile[] row : columnRow)
+                    {
+                        for (int j = 0; j<row.length; j++)
+                        {
+                            row[j] = json.fromJson(Tile.class, currentLine);
+                            currentLine = mapFileReader.readLine();
+                            if (currentLine ==null)
+                            {
+                                break outsideloop;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Log.d(e.toString(), "Map file could not be read on load");
+            }
             return success;
         }
 
