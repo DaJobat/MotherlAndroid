@@ -32,14 +32,13 @@ public class Map
 
     public Map(String mapName)
     {
-        //first, check if map already exists
-        manageFiles();
+        //first, check if map already exists and setup file structure
         this.mapName = mapName;
-        int i = 0;
-        for (Chunk chunk : chunks)
+        manageFiles();
+        chunks = new Chunk[9];
+        for (int i = 0; i <chunks.length; i++)
         {
             chunks[i] = new Chunk(new Vector2(0,0));
-            i++;
         }
     }
 
@@ -59,7 +58,23 @@ public class Map
             directory.mkdirs();
         }
         indexFile = new FileHandle(directory.path().concat("/"+mapName+".mlindex"));
+        try
+        {
+            indexFile.file().createNewFile();
+        }
+        catch (IOException e)
+        {
+            Log.d(e.toString(), "Cannot create index file");
+        }
         mapFile = new FileHandle(directory.path().concat("/"+mapName+".mlmap"));
+        try
+        {
+            mapFile.file().createNewFile();
+        }
+        catch (IOException e)
+        {
+            Log.d(e.toString(), "Cannot create map file");
+        }
     }
 
     //Chunk class starts here.
