@@ -6,6 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +16,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * To change this template use File | Settings | File Templates.
  */
 public class MLGameScreen implements Screen {
+    public final static boolean debug = true;
+    public final static Vector2 chunkSize = new Vector2(20,20);
+
     MLCore game;
     SpriteBatch batch;
     SpriteBatch debugBatch;
@@ -22,7 +26,8 @@ public class MLGameScreen implements Screen {
     Player player;
     ExtendedCamera camera;
     BitmapFont font;
-    float zoomLevel = 1f;
+    float zoomLevel = 0.3f;
+    Vector2 tilesOnScreen;
    // List drawables;
 
     public MLGameScreen(MLCore game)
@@ -34,7 +39,8 @@ public class MLGameScreen implements Screen {
         camera.update();
         batch = new SpriteBatch();
         debugBatch = new SpriteBatch();
-        map = new Map("TestMap1");
+        tilesOnScreen = new Vector2((zoomLevel*Gdx.graphics.getWidth()-zoomLevel*Gdx.graphics.getWidth()%32)/32,(zoomLevel*Gdx.graphics.getHeight()-zoomLevel*Gdx.graphics.getHeight()%32)/32);
+        map = new Map("TestMap1", tilesOnScreen);
         player = new Player(camera, zoomLevel);
         font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
     }
@@ -51,9 +57,12 @@ public class MLGameScreen implements Screen {
         map.draw(batch, camera);
         player.update(batch, delta);
         batch.end();
-        debugBatch.begin();
-        renderDebug();
-        debugBatch.end();
+        if (debug)
+        {
+            debugBatch.begin();
+            renderDebug();
+            debugBatch.end();
+        }
     }
 
     @Override

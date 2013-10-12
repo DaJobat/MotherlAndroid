@@ -48,7 +48,14 @@ public class Tile
     private void setTileType()
     {
         // in here, use the chunklocation and positioninchunk to decide what the tile can be. at present, make it all dirt for testing
-        type = Tiletype.DIRT;
+        if (chunk.y <2)
+        {
+            type = Tiletype.AIR;
+        }
+        else
+        {
+            type = Tiletype.DIRT;
+        }
 
         Texture texture = new Texture(Gdx.files.internal("tilesheet.png"));
         int[] texLocation =  getTexture(texture, type.textureLocation);
