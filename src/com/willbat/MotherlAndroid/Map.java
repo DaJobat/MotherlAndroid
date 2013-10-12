@@ -36,9 +36,14 @@ public class Map
         this.mapName = mapName;
         manageFiles();
         chunks = new Chunk[9];
-        for (int i = 0; i <chunks.length; i++)
+        int k = 0;
+        for (int i = 0; i < 3; i++)
         {
-            chunks[i] = new Chunk(new Vector2(0,0));
+            for (int j = 0; j < 3; j++)
+            {
+                chunks[k] = new Chunk(new Vector2(i,j));
+                k++;
+            }
         }
     }
 
@@ -100,11 +105,6 @@ public class Map
             {
                 generateChunk();
             }
-        }
-
-        protected void unloadChunk()
-        {
-            saveChunk();
         }
 
         private void generateChunk()
@@ -180,7 +180,7 @@ public class Map
                         i++;
                     }
                     chunkLineInFile = i;
-                    //this removes the old chunk data, now we append the new chunk data to the end of the file and
+                    //this removes the old chunk data, now we append the new chunk data to the end of the file
                     int j = 0;
                     for(Tile[] row : tiles)
                     {

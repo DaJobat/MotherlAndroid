@@ -26,7 +26,8 @@ public class Player {
     private float centreX = Gdx.graphics.getWidth()/2;
     private float centreY = Gdx.graphics.getHeight()/2;
     private float zoomLevel;
-    private Vector2 absolutePosition; // this is the players position in the world
+    private Vector2 chunkLocation; // this is the current chunk of the player
+    private Vector2 tileLocation; // this is the current tile the player is on in the chunk
     private Vector2 position;
     private Vector2 velocity = new Vector2(0,0);
     private Vector2 movementThisFrame = new Vector2(0,0);
