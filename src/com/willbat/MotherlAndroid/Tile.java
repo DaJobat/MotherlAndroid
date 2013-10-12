@@ -39,7 +39,7 @@ public class Tile
         setTileType(); // sets tile type based on location in world
 
         tileSprite.setX(this.positionInChunk.x * tileSprite.getWidth());
-        tileSprite.setY(-this.positionInChunk.y * tileSprite.getHeight() + (Gdx.graphics.getHeight() - tileSprite.getHeight()));
+        tileSprite.setY(-this.positionInChunk.y * tileSprite.getHeight() + (-tileSprite.getHeight()));
         setBoundingBox();
         boundingRectangle = tileSprite.getBoundingRectangle();
         isDrawn = false;

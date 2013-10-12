@@ -23,8 +23,9 @@ public class Player {
     public static final float MAX_SPEED = 3f; //Das maximum speed
     public static final float THRUSTER_POWER = 0.02f; //How strong the players movement thrusters are
 
-    private float centreX = Gdx.graphics.getWidth()/2;
-    private float centreY = Gdx.graphics.getHeight()/2;
+    public static final float centreX = Gdx.graphics.getWidth()/2;
+    public static final float centreY = Gdx.graphics.getHeight()/2;
+
     private float zoomLevel;
     private Vector2 chunkLocation; // this is the current chunk of the player
     private Vector2 tileLocation; // this is the current tile the player is on in the chunk
@@ -37,7 +38,7 @@ public class Player {
     {
         this.camera = camera;
         this.zoomLevel = zoomLevel;
-        position = new Vector2(0, Gdx.graphics.getHeight());
+        position = new Vector2(0, 0);
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
         boundingRectangle = sprite.getBoundingRectangle();
@@ -60,11 +61,19 @@ public class Player {
     }
 
     public void updateCamera(){
+
+        float cameraX = (position.x + texture.getWidth()/2) - camera.position.x;
+        float cameraY = (position.y + texture.getHeight()/2) - camera.position.y;
+
         if(position.x + texture.getWidth()/2 < Gdx.graphics.getWidth()/2 * zoomLevel){
-            camera.translate(((Gdx.graphics.getWidth()/2)*zoomLevel) - camera.position.x, (position.y + texture.getHeight()/2) - camera.position.y, 0);
-        }else{
-            camera.translate((position.x + texture.getWidth()/2) - camera.position.x, (position.y + texture.getHeight()/2) - camera.position.y, 0);
+            cameraX = ((Gdx.graphics.getWidth()/2)*zoomLevel) - camera.position.x;
         }
+
+        if(position.y + texture.getHeight()/2 > 0){
+            cameraY = 0 - camera.position.y;
+        }
+
+        camera.translate(cameraX, cameraY, 0);
     }
 
     public void handleInput(float delta) {
@@ -88,9 +97,16 @@ public class Player {
         }
     }
 
+    public Vector2 getPositionOnScreen(){
+        float x = centreX + ((position.x + texture.getWidth()/2) - camera.position.x)/zoomLevel;
+        float y = centreY + ((position.y + texture.getHeight()/2) - camera.position.y)/zoomLevel;
+
+        return new Vector2(x, y);
+    }
+
     public void moveTo(int x, int y, float delta){
         Vector2 destination = new Vector2(x, y);
-        Vector2 centre = new Vector2(centreX, centreY);
+        Vector2 centre = getPositionOnScreen();
         Vector2 direction = destination.sub(centre);
         Vector2 moveAmount = direction.mul(THRUSTER_POWER).mul(delta);
         movementThisFrame = moveAmount;
@@ -110,12 +126,16 @@ public class Player {
         position = position.add(velocity);
 
         if(position.x < 0){
-            position.add(-position.x, 0);
+            position.x = 0;
             velocity.x = 0;
         }
 
-        if(position.y < 0){
-            position.add(0, -position.y);
+        if(position.y > ((Gdx.graphics.getHeight()/2)*zoomLevel) - texture.getHeight()){
+            position.y = ((Gdx.graphics.getHeight()/2)*zoomLevel) - texture.getHeight();
+            velocity.y = 0;
+        }
+        else if(position.y < -200){
+            position.y = -200;
             velocity.y = 0;
         }
     }
