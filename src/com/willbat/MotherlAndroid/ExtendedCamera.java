@@ -35,11 +35,10 @@ public class ExtendedCamera extends OrthographicCamera
         float x = (position.x - position.x%32)/32;
         float y = (position.y - position.y%32)/32;
         Vector2[] result = new Vector2[2];
-        Vector2 currentTile = new Vector2(x%20,y%20); //depends on chunk size
-        Vector2 currentChunk = new Vector2((x-currentTile.x)/20,(y-currentTile.y)/20);
+        Vector2 currentTile = new Vector2(x%MLGameScreen.chunkSize.x,y%MLGameScreen.chunkSize.y); //depends on chunk size
+        Vector2 currentChunk = new Vector2((x-currentTile.x)/MLGameScreen.chunkSize.x,(y-currentTile.y)/MLGameScreen.chunkSize.y);
         result[0] = currentChunk;
         result[1] = currentTile;
         return result;
-
     }
 }

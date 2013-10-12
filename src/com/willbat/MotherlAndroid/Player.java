@@ -37,7 +37,9 @@ public class Player {
     {
         this.camera = camera;
         this.zoomLevel = zoomLevel;
-        position = new Vector2(0, Gdx.graphics.getHeight());
+        Vector2[] spawnTile = {new Vector2(1,1), new Vector2(16,24)};
+        float[] spawnPos = getPositionFromTile(spawnTile);
+        position = new Vector2(spawnPos[0],spawnPos[1]);
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
         boundingRectangle = sprite.getBoundingRectangle();
@@ -118,5 +120,26 @@ public class Player {
             position.add(0, -position.y);
             velocity.y = 0;
         }
+    }
+
+    public Vector2[] getCurrentTile()
+    {
+        //this method gives the current chunk and current tile of the camera (for use instead of frustum culling)
+        float x = (position.x - position.x%32)/32;
+        float y = (position.y - position.y%32)/32;
+        Vector2[] result = new Vector2[2];
+        Vector2 currentTile = new Vector2(x%MLGameScreen.chunkSize.x,y%MLGameScreen.chunkSize.y); //depends on chunk size
+        Vector2 currentChunk = new Vector2((x-currentTile.x)/MLGameScreen.chunkSize.x,(y-currentTile.y)/MLGameScreen.chunkSize.y);
+        result[0] = currentChunk;
+        result[1] = currentTile;
+        return result;
+    }
+
+    public float[] getPositionFromTile(Vector2[] tilePos)
+    {
+        float x = ((tilePos[0].x * MLGameScreen.chunkSize.x) + (tilePos[1].x))*32 + 16;
+        float y = ((tilePos[0].y * MLGameScreen.chunkSize.y) + (tilePos[1].y))*32 + 16;
+        float[] result = {x,y};
+        return result;
     }
 }
