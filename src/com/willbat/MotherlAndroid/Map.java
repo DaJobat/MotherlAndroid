@@ -29,11 +29,13 @@ public class Map
     FileHandle mapFile;
     BufferedReader indexFileReader;
     BufferedReader mapFileReader;
+    Vector2 tilesOnScreen;
 
-    public Map(String mapName)
+    public Map(String mapName, Vector2 tilesOnScreen)
     {
         //first, check if map already exists and setup file structure
         this.mapName = mapName;
+        this.tilesOnScreen = tilesOnScreen;
         manageFiles();
         chunks = new Chunk[9];
         int k = 0;
@@ -49,6 +51,7 @@ public class Map
 
     public void draw(SpriteBatch batch, ExtendedCamera camera)
     {
+        //camera.position
         for (Chunk chunk : chunks)
         {
             chunk.draw(batch, camera);
