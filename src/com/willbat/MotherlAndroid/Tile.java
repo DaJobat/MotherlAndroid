@@ -37,9 +37,10 @@ public class Tile
         this.positionInChunk = positionInChunk;
 
         setTileType(); // sets tile type based on location in world
-
-        tileSprite.setX(this.positionInChunk.x * tileSprite.getWidth());
-        tileSprite.setY(-this.positionInChunk.y * tileSprite.getHeight() + (-tileSprite.getHeight()));
+        Vector2[] in = {chunk, positionInChunk};
+        float[] pos = getPositionFromTile(in);
+        tileSprite.setX(pos[0]);
+        tileSprite.setY(pos[1]);
         setBoundingBox();
         boundingRectangle = tileSprite.getBoundingRectangle();
         isDrawn = false;
@@ -48,15 +49,15 @@ public class Tile
     private void setTileType()
     {
         // in here, use the chunklocation and positioninchunk to decide what the tile can be. at present, make it all dirt for testing
-        if (chunk.y <2)
-        {
-            type = Tiletype.AIR;
-        }
-        else
-        {
-            type = Tiletype.DIRT;
-        }
-
+//        if (chunk.y <2)
+//        {
+//            type = Tiletype.AIR;
+//        }
+//        else
+//        {
+//            type = Tiletype.DIRT;
+//        }
+        type = Tiletype.DIRT;
         Texture texture = new Texture(Gdx.files.internal("tilesheet.png"));
         int[] texLocation =  getTexture(texture, type.textureLocation);
         tileSprite = new Sprite(texture, texLocation[0], texLocation[1], 32, 32);
@@ -87,5 +88,13 @@ public class Tile
     {
         Rectangle rectangle = tileSprite.getBoundingRectangle();
         boundingBox = new BoundingBox(new Vector3(rectangle.getX(), rectangle.getY(), 0), new Vector3(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight(), 0));
+    }
+
+    public float[] getPositionFromTile(Vector2[] tilePos)
+    {
+        float x = ((tilePos[0].x * MLGameScreen.chunkSize.x) + (tilePos[1].x))*32;
+        float y = ((tilePos[0].y * MLGameScreen.chunkSize.y) + (tilePos[1].y))*32;
+        float[] result = {x,-y};
+        return result;
     }
 }

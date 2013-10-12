@@ -48,7 +48,6 @@ public class Map
         chunkMap.put("southwest", new Chunk(new Vector2(0,2)));
         chunkMap.put("south", new Chunk(new Vector2(1,2)));
         chunkMap.put("southeast", new Chunk(new Vector2(2,2)));
-
     }
 
     public void draw(SpriteBatch batch, ExtendedCamera camera)
@@ -69,19 +68,58 @@ public class Map
             chunkMap.get("east").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0 && currentLocation[0].y - tilesOnScreen.y/2 < 0) // if southeast chunk is visible, draw that chunk and the south, east and middle chunks
+        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0 && currentLocation[0].y + tilesOnScreen.y/2 < 0) // if southeast chunk is visible, draw that chunk and the south, east and middle chunks
         {
             chunkMap.get("southeast").draw(batch, camera);
             chunkMap.get("south").draw(batch, camera);
             chunkMap.get("east").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0 && currentLocation[0].y - tilesOnScreen.y/2 < 0) // if southwest chunk is visible, draw that chunk and the south, west and middle chunks
+        else if (currentLocation[0].x - tilesOnScreen.x/2 < 0 && currentLocation[0].y + tilesOnScreen.y/2 < 0) // if southwest chunk is visible, draw that chunk and the south, west and middle chunks
         {
             chunkMap.get("southwest").draw(batch, camera);
             chunkMap.get("south").draw(batch, camera);
             chunkMap.get("west").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
+        }
+        else if (currentLocation[0].x - tilesOnScreen.x/2 < 0) // west chunk visible
+        {
+            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera);
+        }
+        else if (currentLocation[0].y - tilesOnScreen.y/2 < 0) // north chunk visible
+        {
+            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera);
+        }
+        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0) // east chunk visible
+        {
+            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera);
+        }
+        else if (currentLocation[0].y + tilesOnScreen.y/2 < 0) // south chunk visible
+        {
+            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera);
+        }
+        else // middle visible
+        {
+            chunkMap.get("middle").draw(batch, camera);
+        }
+    }
+
+    public void update(SpriteBatch batch, ExtendedCamera camera)
+    {
+        manageChunks(camera);
+        draw(batch, camera);
+    }
+
+    public void manageChunks(ExtendedCamera camera)
+    {
+        Vector2[] currPos = camera.getCurrentTile();
+        if (chunkMap.get("middle").chunkPosition != currPos[0]) //if middle tile is not at the centre
+        {
+
         }
     }
 

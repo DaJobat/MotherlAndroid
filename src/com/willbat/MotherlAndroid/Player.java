@@ -40,7 +40,8 @@ public class Player {
         this.zoomLevel = zoomLevel;
         Vector2[] spawnTile = {new Vector2(1,1), new Vector2(16,24)};
         float[] spawnPos = getPositionFromTile(spawnTile);
-        position = new Vector2(spawnPos[0],spawnPos[1]);
+        //position = new Vector2(spawnPos[0],-spawnPos[1]);
+        position = new Vector2(0,-200);
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
         boundingRectangle = sprite.getBoundingRectangle();
@@ -134,10 +135,6 @@ public class Player {
 
         if(position.y > ((Gdx.graphics.getHeight()/2)*zoomLevel) - texture.getHeight()){
             position.y = ((Gdx.graphics.getHeight()/2)*zoomLevel) - texture.getHeight();
-            velocity.y = 0;
-        }
-        else if(position.y < -200){
-            position.y = -200;
             velocity.y = 0;
         }
     }
