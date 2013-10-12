@@ -1,6 +1,7 @@
 package com.willbat.MotherlAndroid;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,5 +27,19 @@ public class ExtendedCamera extends OrthographicCamera
     private void checkBounds()
     {
         //TODO: Complete this method, make it work with bounding boxes
+    }
+
+    public Vector2[] getCurrentTile()
+    {
+        //this method gives the current chunk and current tile of the camera (for use instead of frustum culling)
+        float x = (position.x - position.x%32)/32;
+        float y = (position.y - position.y%32)/32;
+        Vector2[] result = new Vector2[2];
+        Vector2 currentTile = new Vector2(x%20,y%20); //depends on chunk size
+        Vector2 currentChunk = new Vector2((x-currentTile.x)/20,(y-currentTile.y)/20);
+        result[0] = currentChunk;
+        result[1] = currentTile;
+        return result;
+
     }
 }

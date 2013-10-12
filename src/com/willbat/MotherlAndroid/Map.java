@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Json;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 /**
  * This class contains the map of tiles that is the rendered game world
@@ -22,7 +23,7 @@ public class Map
     /**
      * The chunks array contains the 9 chunks that are nearest the player at any one time.
      */
-    Chunk[] chunks;
+    HashMap<String, Chunk> chunkMap;
     String mapName;
     FileHandle directory;
     FileHandle indexFile;
@@ -37,24 +38,50 @@ public class Map
         this.mapName = mapName;
         this.tilesOnScreen = tilesOnScreen;
         manageFiles();
-        chunks = new Chunk[9];
-        int k = 0;
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                chunks[k] = new Chunk(new Vector2(i,j));
-                k++;
-            }
-        }
+        chunkMap = new HashMap<String, Chunk>(9);
+        chunkMap.put("northwest", new Chunk(new Vector2(0,0)));
+        chunkMap.put("north", new Chunk(new Vector2(1,0)));
+        chunkMap.put("northeast", new Chunk(new Vector2(2,0)));
+        chunkMap.put("west", new Chunk(new Vector2(0,1)));
+        chunkMap.put("middle", new Chunk(new Vector2(1,1)));
+        chunkMap.put("east", new Chunk(new Vector2(2,1)));
+        chunkMap.put("southwest", new Chunk(new Vector2(0,2)));
+        chunkMap.put("south", new Chunk(new Vector2(1,2)));
+        chunkMap.put("southeast", new Chunk(new Vector2(2,2)));
+
     }
 
     public void draw(SpriteBatch batch, ExtendedCamera camera)
     {
-        //camera.position
-        for (Chunk chunk : chunks)
+        // when drawing tiles, first we want to check if any of the corner chunks need to be drawn, then the chunks north south east and west
+        Vector2[] currentLocation = camera.getCurrentTile();
+        if (currentLocation[0].x - tilesOnScreen.x/2 < 0 && currentLocation[0].y - tilesOnScreen.y/2 < 0) // if northwest chunk is visible, draw that chunk and the north, west and middle chunks
         {
-            chunk.draw(batch, camera);
+            chunkMap.get("northwest").draw(batch, camera);
+            chunkMap.get("north").draw(batch, camera);
+            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera);
+        }
+        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0 && currentLocation[0].y - tilesOnScreen.y/2 < 0) // if northeast chunk is visible, draw that chunk and the north, east and middle chunks
+        {
+            chunkMap.get("northeast").draw(batch, camera);
+            chunkMap.get("north").draw(batch, camera);
+            chunkMap.get("east").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera);
+        }
+        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0 && currentLocation[0].y - tilesOnScreen.y/2 < 0) // if southeast chunk is visible, draw that chunk and the south, east and middle chunks
+        {
+            chunkMap.get("southeast").draw(batch, camera);
+            chunkMap.get("south").draw(batch, camera);
+            chunkMap.get("east").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera);
+        }
+        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0 && currentLocation[0].y - tilesOnScreen.y/2 < 0) // if southwest chunk is visible, draw that chunk and the south, west and middle chunks
+        {
+            chunkMap.get("southwest").draw(batch, camera);
+            chunkMap.get("south").draw(batch, camera);
+            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera);
         }
     }
 
@@ -99,7 +126,7 @@ public class Map
         public Chunk(Vector2 chunkPosition)
         {
             this.chunkPosition = chunkPosition;
-            size = new Vector2(20, 20);
+            size = MLGameScreen.chunkSize;
             if (checkChunkExists()) // if chunk already exists, load from file
             {
                 loadChunk();

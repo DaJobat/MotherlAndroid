@@ -18,3 +18,6 @@ this will allow mldroid to easily look up all data for a chunk
 
 Drawing stuff:
 for drawing tiles, replace bounds in frustum with some kind of absolute position thing, this will make the maths faster and improve performance of the program
+
+Player stuff:
+spawn player in chunk 1,1. make top 2 y rows town/air etc, then have row 3 and below as earth
