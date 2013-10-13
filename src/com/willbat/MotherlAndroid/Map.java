@@ -89,17 +89,17 @@ public class Map
         }
         else if (currentLocation[0].y - tilesOnScreen.y/2 < 0) // north chunk visible
         {
-            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("north").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
         else if (currentLocation[0].x + tilesOnScreen.x/2 < 0) // east chunk visible
         {
-            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("east").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
         else if (currentLocation[0].y + tilesOnScreen.y/2 < 0) // south chunk visible
         {
-            chunkMap.get("west").draw(batch, camera);
+            chunkMap.get("south").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
         else // middle visible
@@ -119,7 +119,7 @@ public class Map
         Vector2[] currPos = camera.getCurrentTile();
         if (chunkMap.get("middle").chunkPosition != currPos[0]) //if middle chunk is not at the centre
         {
-            if (currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved north
+            if (currPos[0].y > 0 && currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved north
             {
                 chunkMap.remove("southwest");
                 chunkMap.remove("south");
@@ -140,7 +140,7 @@ public class Map
                 chunkMap.put("north", new Chunk(currPos[0].add(0,-1)));
                 chunkMap.put("northeast", new Chunk(currPos[0].add(1,-1)));
             }
-            if (currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved east
+            if (currPos[0].x > chunkMap.get("middle").chunkPosition.x) // if moved east
             {
                 chunkMap.remove("northwest");
                 chunkMap.remove("west");
@@ -161,7 +161,7 @@ public class Map
                 chunkMap.put("east", new Chunk(currPos[0].add(1,0)));
                 chunkMap.put("southeast", new Chunk(currPos[0].add(1,1)));
             }
-            if (currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved south
+            if (currPos[0].y > chunkMap.get("middle").chunkPosition.y) // if moved south
             {
                 chunkMap.remove("northwest");
                 chunkMap.remove("north");
@@ -182,7 +182,7 @@ public class Map
                 chunkMap.put("south", new Chunk(currPos[0].add(0,1)));
                 chunkMap.put("southeast", new Chunk(currPos[0].add(1,1)));
             }
-            if (currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved west
+            if (currPos[0].x > 0 && currPos[0].x < chunkMap.get("middle").chunkPosition.x) // if moved west
             {
 
                 chunkMap.remove("northeast");
