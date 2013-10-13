@@ -117,9 +117,93 @@ public class Map
     public void manageChunks(ExtendedCamera camera)
     {
         Vector2[] currPos = camera.getCurrentTile();
-        if (chunkMap.get("middle").chunkPosition != currPos[0]) //if middle tile is not at the centre
+        if (chunkMap.get("middle").chunkPosition != currPos[0]) //if middle chunk is not at the centre
         {
+            if (currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved north
+            {
+                chunkMap.remove("southwest");
+                chunkMap.remove("south");
+                chunkMap.remove("southeast");
+                chunkMap.put("southwest", chunkMap.get("west"));
+                chunkMap.put("south", chunkMap.get("middle"));
+                chunkMap.put("southeast", chunkMap.get("east"));
+                chunkMap.remove("west");
+                chunkMap.remove("middle");
+                chunkMap.remove("east");
+                chunkMap.put("west", chunkMap.get("northwest"));
+                chunkMap.put("middle", chunkMap.get("north"));
+                chunkMap.put("east", chunkMap.get("northeast"));
+                chunkMap.remove("northwest");
+                chunkMap.remove("north");
+                chunkMap.remove("northeast");
+                chunkMap.put("northwest", new Chunk(currPos[0].add(-1,-1)));
+                chunkMap.put("north", new Chunk(currPos[0].add(0,-1)));
+                chunkMap.put("northeast", new Chunk(currPos[0].add(1,-1)));
+            }
+            if (currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved east
+            {
+                chunkMap.remove("northwest");
+                chunkMap.remove("west");
+                chunkMap.remove("southwest");
+                chunkMap.put("northwest", chunkMap.get("north"));
+                chunkMap.put("west", chunkMap.get("middle"));
+                chunkMap.put("southwest", chunkMap.get("south"));
+                chunkMap.remove("north");
+                chunkMap.remove("middle");
+                chunkMap.remove("south");
+                chunkMap.put("north", chunkMap.get("northeast"));
+                chunkMap.put("middle", chunkMap.get("east"));
+                chunkMap.put("south", chunkMap.get("southeast"));
+                chunkMap.remove("northeast");
+                chunkMap.remove("east");
+                chunkMap.remove("southeast");
+                chunkMap.put("northeast", new Chunk(currPos[0].add(1,-1)));
+                chunkMap.put("east", new Chunk(currPos[0].add(1,0)));
+                chunkMap.put("southeast", new Chunk(currPos[0].add(1,1)));
+            }
+            if (currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved south
+            {
+                chunkMap.remove("northwest");
+                chunkMap.remove("north");
+                chunkMap.remove("northeast");
+                chunkMap.put("northwest", chunkMap.get("west"));
+                chunkMap.put("north", chunkMap.get("middle"));
+                chunkMap.put("northeast", chunkMap.get("east"));
+                chunkMap.remove("west");
+                chunkMap.remove("middle");
+                chunkMap.remove("east");
+                chunkMap.put("west", chunkMap.get("southwest"));
+                chunkMap.put("middle", chunkMap.get("south"));
+                chunkMap.put("east", chunkMap.get("southeast"));
+                chunkMap.remove("southwest");
+                chunkMap.remove("south");
+                chunkMap.remove("southeast");
+                chunkMap.put("southwest", new Chunk(currPos[0].add(-1,1)));
+                chunkMap.put("south", new Chunk(currPos[0].add(0,1)));
+                chunkMap.put("southeast", new Chunk(currPos[0].add(1,1)));
+            }
+            if (currPos[0].y < chunkMap.get("middle").chunkPosition.y) // if moved west
+            {
 
+                chunkMap.remove("northeast");
+                chunkMap.remove("east");
+                chunkMap.remove("southeast");
+                chunkMap.put("northeast", chunkMap.get("north"));
+                chunkMap.put("east", chunkMap.get("middle"));
+                chunkMap.put("southeast", chunkMap.get("south"));
+                chunkMap.remove("north");
+                chunkMap.remove("middle");
+                chunkMap.remove("south");
+                chunkMap.put("north", chunkMap.get("northwest"));
+                chunkMap.put("middle", chunkMap.get("west"));
+                chunkMap.put("south", chunkMap.get("southwest"));
+                chunkMap.remove("northwest");
+                chunkMap.remove("west");
+                chunkMap.remove("southwest");
+                chunkMap.put("northwest", new Chunk(currPos[0].add(-1,-1)));
+                chunkMap.put("west", new Chunk(currPos[0].add(-1,0)));
+                chunkMap.put("southwest", new Chunk(currPos[0].add(-1,1)));
+            }
         }
     }
 

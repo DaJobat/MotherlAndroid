@@ -29,7 +29,7 @@ public class Player {
     private float zoomLevel;
     private Vector2 chunkLocation; // this is the current chunk of the player
     private Vector2 tileLocation; // this is the current tile the player is on in the chunk
-    private Vector2 position;
+    public Vector2 position;
     private Vector2 velocity = new Vector2(0,0);
     private Vector2 movementThisFrame = new Vector2(0,0);
     private Rectangle boundingRectangle; // this should be replaced with a bounding polygon when art is finalised
@@ -38,10 +38,9 @@ public class Player {
     {
         this.camera = camera;
         this.zoomLevel = zoomLevel;
-        Vector2[] spawnTile = {new Vector2(1,1), new Vector2(16,24)};
+        Vector2[] spawnTile = {new Vector2(1,1), new Vector2(9,9)};
         float[] spawnPos = getPositionFromTile(spawnTile);
-        //position = new Vector2(spawnPos[0],-spawnPos[1]);
-        position = new Vector2(0,-200);
+        position = new Vector2(spawnPos[0],spawnPos[1]);
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
         boundingRectangle = sprite.getBoundingRectangle();
@@ -156,7 +155,7 @@ public class Player {
     {
         float x = ((tilePos[0].x * MLGameScreen.chunkSize.x) + (tilePos[1].x))*32 + 16;
         float y = ((tilePos[0].y * MLGameScreen.chunkSize.y) + (tilePos[1].y))*32 + 16;
-        float[] result = {x,y};
+        float[] result = {x,-y};
         return result;
     }
 }

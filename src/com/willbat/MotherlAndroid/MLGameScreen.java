@@ -54,7 +54,7 @@ public class MLGameScreen implements Screen {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        map.draw(batch, camera);
+        map.update(batch, camera);
         player.update(batch, delta);
         batch.end();
         if (debug)
@@ -109,7 +109,7 @@ public class MLGameScreen implements Screen {
     }
     public void renderDebug() {
         font.setColor(0.0f,0.0f,0.0f,1.0f);
-        CharSequence debugString = ("W: " + Gdx.graphics.getWidth() + ", H: " + Gdx.graphics.getHeight() + ", FPS: " + Gdx.graphics.getFramesPerSecond());
+        CharSequence debugString = ("W: " + Gdx.graphics.getWidth() + ", H: " + Gdx.graphics.getHeight() + ", FPS: " + Gdx.graphics.getFramesPerSecond() + ", PlayerPos: " + player.position);
         font.draw(debugBatch, debugString, 0,Gdx.graphics.getHeight());
     }
 }
