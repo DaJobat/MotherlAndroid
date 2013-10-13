@@ -145,6 +145,7 @@ public class Player {
         float y = (position.y - position.y%32)/32;
         Vector2[] result = new Vector2[2];
         Vector2 currentTile = new Vector2(x%MLGameScreen.chunkSize.x,y%MLGameScreen.chunkSize.y); //depends on chunk size
+        currentTile.y = currentTile.y * -1;
         Vector2 currentChunk = new Vector2((x-currentTile.x)/MLGameScreen.chunkSize.x,(y-currentTile.y)/MLGameScreen.chunkSize.y);
         result[0] = currentChunk;
         result[1] = currentTile;
