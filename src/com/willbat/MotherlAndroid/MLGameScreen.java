@@ -40,8 +40,8 @@ public class MLGameScreen implements Screen {
         batch = new SpriteBatch();
         debugBatch = new SpriteBatch();
         tilesOnScreen = new Vector2((zoomLevel*Gdx.graphics.getWidth()-zoomLevel*Gdx.graphics.getWidth()%32)/32,(zoomLevel*Gdx.graphics.getHeight()-zoomLevel*Gdx.graphics.getHeight()%32)/32);
-        map = new Map("TestMap1", tilesOnScreen);
         player = new Player(camera, zoomLevel);
+        map = new Map("TestMap1", tilesOnScreen);
         font = new BitmapFont(Gdx.files.internal("consolas.fnt"),Gdx.files.internal("consolas_0.png"),false);
     }
 

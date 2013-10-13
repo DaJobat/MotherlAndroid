@@ -44,6 +44,7 @@ public class Player {
         texture = new Texture(Gdx.files.internal("player.png"));
         sprite = new Sprite(texture);
         boundingRectangle = sprite.getBoundingRectangle();
+        updateCamera();
     }
 
     public void update(SpriteBatch batch, float delta)
