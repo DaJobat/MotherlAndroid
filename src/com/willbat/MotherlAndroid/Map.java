@@ -77,49 +77,89 @@ public class Map
         else if (currentLocation[0].x < easternTile[0].x && currentLocation[0].y > northernTile[0].y) // if northeast chunk is visible, draw that chunk and the north, east and middle chunks
         {
             chunkMap.get("northeast").draw(batch, camera,
-                    new Vector2(easternTile[1].x, northernTile[1].y),
-                    new Vector2(MLGameScreen.chunkSize.x, MLGameScreen.chunkSize.y));
-            chunkMap.get("north").draw(batch, camera);
-            chunkMap.get("east").draw(batch, camera);
-            chunkMap.get("middle").draw(batch, camera);
+                    new Vector2(0, northernTile[1].y),
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
+            chunkMap.get("north").draw(batch, camera,
+                    new Vector2(westernTile[1].x,northernTile[1].y),
+                    new Vector2(MLGameScreen.chunkSize.x,MLGameScreen.chunkSize.y));
+            chunkMap.get("east").draw(batch, camera,
+                    new Vector2(0,0),
+                    new Vector2(easternTile[1].x,southernTile[1].y));
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(westernTile[1].x,0),
+                    new Vector2(MLGameScreen.chunkSize.x,southernTile[1].y));
         }
         else if (currentLocation[0].x < easternTile[0].x && currentLocation[0].y < southernTile[0].y) // if southeast chunk is visible, draw that chunk and the south, east and middle chunks
         {
-            chunkMap.get("southeast").draw(batch, camera);
-            chunkMap.get("south").draw(batch, camera);
-            chunkMap.get("east").draw(batch, camera);
-            chunkMap.get("middle").draw(batch, camera);
+            chunkMap.get("southeast").draw(batch, camera,
+                    new Vector2(0, 0),
+                    new Vector2(easternTile[1].x, southernTile[1].y));
+            chunkMap.get("south").draw(batch, camera,
+                    new Vector2(westernTile[1].x, 0),
+                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
+            chunkMap.get("east").draw(batch, camera,
+                    new Vector2(0,northernTile[1].y),
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(westernTile[1].x, northernTile[1].y),
+                    new Vector2(MLGameScreen.chunkSize.x, MLGameScreen.chunkSize.y));
         }
         else if (currentLocation[0].x > westernTile[0].x && currentLocation[0].y < southernTile[0].y) // if southwest chunk is visible, draw that chunk and the south, west and middle chunks
         {
-            chunkMap.get("southwest").draw(batch, camera);
-            chunkMap.get("south").draw(batch, camera);
-            chunkMap.get("west").draw(batch, camera);
-            chunkMap.get("middle").draw(batch, camera);
+            chunkMap.get("southwest").draw(batch, camera,
+                    new Vector2(westernTile[1].x, 0),
+                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
+            chunkMap.get("south").draw(batch, camera,
+                    new Vector2(0, 0),
+                    new Vector2(easternTile[1].x, southernTile[1].y));
+            chunkMap.get("west").draw(batch, camera,
+                    new Vector2(westernTile[1].x,northernTile[1].y),
+                    new Vector2(MLGameScreen.chunkSize.x, MLGameScreen.chunkSize.y));
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(0, northernTile[1].y),
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
         }
         else if (currentLocation[0].x > westernTile[0].x) // west chunk visible
         {
-            chunkMap.get("west").draw(batch, camera);
-            chunkMap.get("middle").draw(batch, camera);
+            chunkMap.get("west").draw(batch, camera,
+                    new Vector2(westernTile[1].x, northernTile[1].y),
+                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(0, northernTile[1].y),
+                    new Vector2(easternTile[1].x, southernTile[1].y));
         }
         else if (currentLocation[0].y > northernTile[0].y) // north chunk visible
         {
-            chunkMap.get("north").draw(batch, camera);
-            chunkMap.get("middle").draw(batch, camera);
+            chunkMap.get("north").draw(batch, camera,
+                    new Vector2(westernTile[1].x, northernTile[1].y),
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(westernTile[1].x, 0),
+                    new Vector2(easternTile[1].x, southernTile[1].y));
         }
         else if (currentLocation[0].x < easternTile[0].x) // east chunk visible
         {
-            chunkMap.get("east").draw(batch, camera);
-            chunkMap.get("middle").draw(batch, camera);
+            chunkMap.get("east").draw(batch, camera,
+                    new Vector2(0, northernTile[1].y),
+                    new Vector2(easternTile[1].x, southernTile[1].y));
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(westernTile[1].x, northernTile[1].y),
+                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
         }
         else if (currentLocation[0].y < southernTile[0].y) // south chunk visible
         {
-            chunkMap.get("south").draw(batch, camera);
-            chunkMap.get("middle").draw(batch, camera);
+            chunkMap.get("south").draw(batch, camera,
+                    new Vector2(westernTile[1].x, 0),
+                    new Vector2(easternTile[1].x, southernTile[1].y));
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(westernTile[1].x, northernTile[1].y),
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
         }
         else // only middle visible
         {
-            chunkMap.get("middle").draw(batch, camera);
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(easternTile[1].x, northernTile[1].y),
+                    new Vector2(westernTile[1].x, southernTile[1].y));
         }
     }
 
