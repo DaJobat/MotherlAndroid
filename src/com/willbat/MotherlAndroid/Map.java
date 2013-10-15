@@ -61,14 +61,24 @@ public class Map
 
         if (currentLocation[0].x > westernTile[0].x && currentLocation[0].y > northernTile[0].y) // if northwest chunk is visible, draw that chunk and the north, west and middle chunks
         {
-            chunkMap.get("northwest").draw(batch, camera);
-            chunkMap.get("north").draw(batch, camera);
-            chunkMap.get("west").draw(batch, camera);
-            chunkMap.get("middle").draw(batch, camera);
+            chunkMap.get("northwest").draw(batch, camera,
+                    new Vector2(westernTile[1].x, northernTile[1].y),
+                    new Vector2(MLGameScreen.chunkSize.x, MLGameScreen.chunkSize.y));
+            chunkMap.get("north").draw(batch, camera,
+                    new Vector2(0, northernTile[1].y),
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
+            chunkMap.get("west").draw(batch, camera,
+                    new Vector2(westernTile[1].x,0),
+                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
+            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(0, 0),
+                    new Vector2(easternTile[1].x, southernTile[1].y));
         }
         else if (currentLocation[0].x < easternTile[0].x && currentLocation[0].y > northernTile[0].y) // if northeast chunk is visible, draw that chunk and the north, east and middle chunks
         {
-            chunkMap.get("northeast").draw(batch, camera);
+            chunkMap.get("northeast").draw(batch, camera,
+                    new Vector2(easternTile[1].x, northernTile[1].y),
+                    new Vector2(MLGameScreen.chunkSize.x, MLGameScreen.chunkSize.y));
             chunkMap.get("north").draw(batch, camera);
             chunkMap.get("east").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
@@ -454,7 +464,7 @@ public class Map
             return false;
         }
 
-        public void draw(SpriteBatch batch, ExtendedCamera camera) // draws every tile in a chunk (inefficient, needs to be phased out
+        public void draw(SpriteBatch batch, ExtendedCamera camera, Vector2 minimumXYTile, Vector2 maximumXYTile)
         {
             for (Tile[] row : tiles)
             {
