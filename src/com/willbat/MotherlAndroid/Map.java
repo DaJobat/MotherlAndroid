@@ -506,6 +506,7 @@ public class Map
 
         public void draw(SpriteBatch batch, ExtendedCamera camera, Vector2 minimumXYTile, Vector2 maximumXYTile)
         {
+            //TODO: make this code use the vectors provided for drawing
             for (Tile[] row : tiles)
             {
                 for (Tile tile : row)
