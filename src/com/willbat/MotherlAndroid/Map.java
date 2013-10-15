@@ -31,6 +31,7 @@ public class Map
     BufferedReader indexFileReader;
     BufferedReader mapFileReader;
     Vector2 tilesOnScreen;
+    int tilesDrawn;
 
     public Map(String mapName, Vector2 tilesOnScreen)
     {
@@ -53,6 +54,7 @@ public class Map
     public void draw(SpriteBatch batch, ExtendedCamera camera)
     {
         // when drawing tiles, first we want to check if any of the corner chunks need to be drawn, then the chunks north south east and west
+        tilesDrawn = 0;
         Vector2[] currentLocation = camera.getCurrentTile();
         Vector2[] northernTile = camera.getNorthernTile();
         Vector2[] southernTile = camera.getSouthernTile();
@@ -61,103 +63,103 @@ public class Map
 
         if (currentLocation[0].x > westernTile[0].x && currentLocation[0].y > northernTile[0].y) // if northwest chunk is visible, draw that chunk and the north, west and middle chunks
         {
-            chunkMap.get("northwest").draw(batch, camera,
+            chunkMap.get("northwest").draw(batch,
                     new Vector2(westernTile[1].x, northernTile[1].y),
-                    new Vector2(MLGameScreen.chunkSize.x, MLGameScreen.chunkSize.y));
-            chunkMap.get("north").draw(batch, camera,
+                    new Vector2(MLGameScreen.chunkSize.x - 1, MLGameScreen.chunkSize.y - 1));
+            chunkMap.get("north").draw(batch,
                     new Vector2(0, northernTile[1].y),
-                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
-            chunkMap.get("west").draw(batch, camera,
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y - 1));
+            chunkMap.get("west").draw(batch,
                     new Vector2(westernTile[1].x,0),
-                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
-            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(MLGameScreen.chunkSize.x - 1, southernTile[1].y));
+            chunkMap.get("middle").draw(batch,
                     new Vector2(0, 0),
                     new Vector2(easternTile[1].x, southernTile[1].y));
         }
         else if (currentLocation[0].x < easternTile[0].x && currentLocation[0].y > northernTile[0].y) // if northeast chunk is visible, draw that chunk and the north, east and middle chunks
         {
-            chunkMap.get("northeast").draw(batch, camera,
+            chunkMap.get("northeast").draw(batch,
                     new Vector2(0, northernTile[1].y),
-                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
-            chunkMap.get("north").draw(batch, camera,
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y - 1));
+            chunkMap.get("north").draw(batch,
                     new Vector2(westernTile[1].x,northernTile[1].y),
-                    new Vector2(MLGameScreen.chunkSize.x,MLGameScreen.chunkSize.y));
-            chunkMap.get("east").draw(batch, camera,
+                    new Vector2(MLGameScreen.chunkSize.x - 1,MLGameScreen.chunkSize.y - 1));
+            chunkMap.get("east").draw(batch,
                     new Vector2(0,0),
                     new Vector2(easternTile[1].x,southernTile[1].y));
-            chunkMap.get("middle").draw(batch, camera,
+            chunkMap.get("middle").draw(batch,
                     new Vector2(westernTile[1].x,0),
-                    new Vector2(MLGameScreen.chunkSize.x,southernTile[1].y));
+                    new Vector2(MLGameScreen.chunkSize.x - 1,southernTile[1].y));
         }
         else if (currentLocation[0].x < easternTile[0].x && currentLocation[0].y < southernTile[0].y) // if southeast chunk is visible, draw that chunk and the south, east and middle chunks
         {
-            chunkMap.get("southeast").draw(batch, camera,
+            chunkMap.get("southeast").draw(batch,
                     new Vector2(0, 0),
                     new Vector2(easternTile[1].x, southernTile[1].y));
-            chunkMap.get("south").draw(batch, camera,
+            chunkMap.get("south").draw(batch,
                     new Vector2(westernTile[1].x, 0),
-                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
-            chunkMap.get("east").draw(batch, camera,
+                    new Vector2(MLGameScreen.chunkSize.x - 1, southernTile[1].y));
+            chunkMap.get("east").draw(batch,
                     new Vector2(0,northernTile[1].y),
-                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
-            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y - 1));
+            chunkMap.get("middle").draw(batch,
                     new Vector2(westernTile[1].x, northernTile[1].y),
-                    new Vector2(MLGameScreen.chunkSize.x, MLGameScreen.chunkSize.y));
+                    new Vector2(MLGameScreen.chunkSize.x - 1, MLGameScreen.chunkSize.y - 1));
         }
         else if (currentLocation[0].x > westernTile[0].x && currentLocation[0].y < southernTile[0].y) // if southwest chunk is visible, draw that chunk and the south, west and middle chunks
         {
-            chunkMap.get("southwest").draw(batch, camera,
+            chunkMap.get("southwest").draw(batch,
                     new Vector2(westernTile[1].x, 0),
-                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
-            chunkMap.get("south").draw(batch, camera,
+                    new Vector2(MLGameScreen.chunkSize.x - 1, southernTile[1].y));
+            chunkMap.get("south").draw(batch,
                     new Vector2(0, 0),
                     new Vector2(easternTile[1].x, southernTile[1].y));
-            chunkMap.get("west").draw(batch, camera,
+            chunkMap.get("west").draw(batch,
                     new Vector2(westernTile[1].x,northernTile[1].y),
-                    new Vector2(MLGameScreen.chunkSize.x, MLGameScreen.chunkSize.y));
-            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(MLGameScreen.chunkSize.x - 1, MLGameScreen.chunkSize.y - 1));
+            chunkMap.get("middle").draw(batch,
                     new Vector2(0, northernTile[1].y),
-                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y - 1));
         }
         else if (currentLocation[0].x > westernTile[0].x) // west chunk visible
         {
-            chunkMap.get("west").draw(batch, camera,
+            chunkMap.get("west").draw(batch,
                     new Vector2(westernTile[1].x, northernTile[1].y),
-                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
-            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(MLGameScreen.chunkSize.x - 1, southernTile[1].y));
+            chunkMap.get("middle").draw(batch,
                     new Vector2(0, northernTile[1].y),
                     new Vector2(easternTile[1].x, southernTile[1].y));
         }
         else if (currentLocation[0].y > northernTile[0].y) // north chunk visible
         {
-            chunkMap.get("north").draw(batch, camera,
+            chunkMap.get("north").draw(batch,
                     new Vector2(westernTile[1].x, northernTile[1].y),
-                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
-            chunkMap.get("middle").draw(batch, camera,
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y - 1));
+            chunkMap.get("middle").draw(batch,
                     new Vector2(westernTile[1].x, 0),
                     new Vector2(easternTile[1].x, southernTile[1].y));
         }
         else if (currentLocation[0].x < easternTile[0].x) // east chunk visible
         {
-            chunkMap.get("east").draw(batch, camera,
+            chunkMap.get("east").draw(batch,
                     new Vector2(0, northernTile[1].y),
                     new Vector2(easternTile[1].x, southernTile[1].y));
-            chunkMap.get("middle").draw(batch, camera,
+            chunkMap.get("middle").draw(batch,
                     new Vector2(westernTile[1].x, northernTile[1].y),
-                    new Vector2(MLGameScreen.chunkSize.x, southernTile[1].y));
+                    new Vector2(MLGameScreen.chunkSize.x - 1, southernTile[1].y));
         }
         else if (currentLocation[0].y < southernTile[0].y) // south chunk visible
         {
-            chunkMap.get("south").draw(batch, camera,
+            chunkMap.get("south").draw(batch,
                     new Vector2(westernTile[1].x, 0),
                     new Vector2(easternTile[1].x, southernTile[1].y));
-            chunkMap.get("middle").draw(batch, camera,
+            chunkMap.get("middle").draw(batch,
                     new Vector2(westernTile[1].x, northernTile[1].y),
-                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y));
+                    new Vector2(easternTile[1].x, MLGameScreen.chunkSize.y - 1));
         }
         else // only middle visible
         {
-            chunkMap.get("middle").draw(batch, camera,
+            chunkMap.get("middle").draw(batch,
                     new Vector2(easternTile[1].x, northernTile[1].y),
                     new Vector2(westernTile[1].x, southernTile[1].y));
         }
@@ -504,22 +506,15 @@ public class Map
             return false;
         }
 
-        public void draw(SpriteBatch batch, ExtendedCamera camera, Vector2 minimumXYTile, Vector2 maximumXYTile)
+        public void draw(SpriteBatch batch, Vector2 minimumXYTile, Vector2 maximumXYTile)
         {
             //TODO: make this code use the vectors provided for drawing
-            for (Tile[] row : tiles)
+            for (int i = (int)minimumXYTile.y; i <= (int)maximumXYTile.y; i++)
             {
-                for (Tile tile : row)
+                for (int j = (int)minimumXYTile.x; j <= (int)maximumXYTile.x; j++)
                 {
-                    tile.isDrawn = false;
-                    if (tile != null && tile.visible)
-                    {
-                        if (camera.frustum.boundsInFrustum(tile.boundingBox))
-                        {
-                            tile.draw(batch);
-                            tile.isDrawn = true;
-                        }
-                    }
+                    tiles[i][j].draw(batch);
+                    tilesDrawn++;
                 }
             }
         }

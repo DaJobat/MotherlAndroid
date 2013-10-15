@@ -65,10 +65,10 @@ public class ExtendedCamera extends OrthographicCamera
     {
         //This method gets the current most southern tile visible by the camera
         Vector2[] currPos = getCurrentTile();
-        if (currPos[1].y + MLGameScreen.chunkSize.y/2 > MLGameScreen.chunkSize.y)
+        if (currPos[1].y + MLGameScreen.chunkSize.y/2 > MLGameScreen.chunkSize.y - 1)
         {
             currPos[0].y = currPos[0].y + 1;
-            currPos[1].y = MLGameScreen.chunkSize.y + (currPos[1].y + MLGameScreen.chunkSize.y/2)%MLGameScreen.chunkSize.y;
+            currPos[1].y = (currPos[1].y + MLGameScreen.chunkSize.y/2)%MLGameScreen.chunkSize.y;
             return currPos;
         }
         else
@@ -82,10 +82,10 @@ public class ExtendedCamera extends OrthographicCamera
     {
         //This method gets the current most Eastern tile visible by the camera
         Vector2[] currPos = getCurrentTile();
-        if (currPos[1].x + MLGameScreen.chunkSize.x/2 > MLGameScreen.chunkSize.x)
+        if (currPos[1].x + MLGameScreen.chunkSize.x/2 > MLGameScreen.chunkSize.x - 1)
         {
             currPos[0].x = currPos[0].x + 1;
-            currPos[1].x = MLGameScreen.chunkSize.x + (currPos[1].x + MLGameScreen.chunkSize.x/2)%MLGameScreen.chunkSize.x;
+            currPos[1].x = (currPos[1].x + MLGameScreen.chunkSize.x/2)%MLGameScreen.chunkSize.x;
             return currPos;
         }
         else
