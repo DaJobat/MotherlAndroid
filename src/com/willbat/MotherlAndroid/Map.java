@@ -54,55 +54,60 @@ public class Map
     {
         // when drawing tiles, first we want to check if any of the corner chunks need to be drawn, then the chunks north south east and west
         Vector2[] currentLocation = camera.getCurrentTile();
-        if (currentLocation[0].x - tilesOnScreen.x/2 < 0 && currentLocation[0].y - tilesOnScreen.y/2 < 0) // if northwest chunk is visible, draw that chunk and the north, west and middle chunks
+        Vector2[] northernTile = camera.getNorthernTile();
+        Vector2[] southernTile = camera.getSouthernTile();
+        Vector2[] westernTile = camera.getWesternTile();
+        Vector2[] easternTile = camera.getEasternTile();
+
+        if (currentLocation[0].x > westernTile[0].x && currentLocation[0].y > northernTile[0].y) // if northwest chunk is visible, draw that chunk and the north, west and middle chunks
         {
             chunkMap.get("northwest").draw(batch, camera);
             chunkMap.get("north").draw(batch, camera);
             chunkMap.get("west").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0 && currentLocation[0].y - tilesOnScreen.y/2 < 0) // if northeast chunk is visible, draw that chunk and the north, east and middle chunks
+        else if (currentLocation[0].x < easternTile[0].x && currentLocation[0].y > northernTile[0].y) // if northeast chunk is visible, draw that chunk and the north, east and middle chunks
         {
             chunkMap.get("northeast").draw(batch, camera);
             chunkMap.get("north").draw(batch, camera);
             chunkMap.get("east").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0 && currentLocation[0].y + tilesOnScreen.y/2 < 0) // if southeast chunk is visible, draw that chunk and the south, east and middle chunks
+        else if (currentLocation[0].x < easternTile[0].x && currentLocation[0].y < southernTile[0].y) // if southeast chunk is visible, draw that chunk and the south, east and middle chunks
         {
             chunkMap.get("southeast").draw(batch, camera);
             chunkMap.get("south").draw(batch, camera);
             chunkMap.get("east").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].x - tilesOnScreen.x/2 < 0 && currentLocation[0].y + tilesOnScreen.y/2 < 0) // if southwest chunk is visible, draw that chunk and the south, west and middle chunks
+        else if (currentLocation[0].x > westernTile[0].x && currentLocation[0].y < southernTile[0].y) // if southwest chunk is visible, draw that chunk and the south, west and middle chunks
         {
             chunkMap.get("southwest").draw(batch, camera);
             chunkMap.get("south").draw(batch, camera);
             chunkMap.get("west").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].x - tilesOnScreen.x/2 < 0) // west chunk visible
+        else if (currentLocation[0].x > westernTile[0].x) // west chunk visible
         {
             chunkMap.get("west").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].y - tilesOnScreen.y/2 < 0) // north chunk visible
+        else if (currentLocation[0].y > northernTile[0].y) // north chunk visible
         {
             chunkMap.get("north").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].x + tilesOnScreen.x/2 < 0) // east chunk visible
+        else if (currentLocation[0].x < easternTile[0].x) // east chunk visible
         {
             chunkMap.get("east").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else if (currentLocation[0].y + tilesOnScreen.y/2 < 0) // south chunk visible
+        else if (currentLocation[0].y < southernTile[0].y) // south chunk visible
         {
             chunkMap.get("south").draw(batch, camera);
             chunkMap.get("middle").draw(batch, camera);
         }
-        else // middle visible
+        else // only middle visible
         {
             chunkMap.get("middle").draw(batch, camera);
         }
@@ -449,7 +454,7 @@ public class Map
             return false;
         }
 
-        public void draw(SpriteBatch batch, ExtendedCamera camera)
+        public void draw(SpriteBatch batch, ExtendedCamera camera) // draws every tile in a chunk (inefficient, needs to be phased out
         {
             for (Tile[] row : tiles)
             {

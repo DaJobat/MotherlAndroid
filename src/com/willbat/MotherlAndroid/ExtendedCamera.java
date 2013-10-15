@@ -42,4 +42,73 @@ public class ExtendedCamera extends OrthographicCamera
         result[1] = currentTile;
         return result;
     }
+
+    public Vector2[] getNorthernTile()
+    {
+        //This method gets the current most northern tile visible by the camera
+        Vector2[] currPos = getCurrentTile();
+        if (currPos[1].y - MLGameScreen.chunkSize.y/2 < 0)
+        {
+            currPos[0].y = currPos[0].y - 1;
+            currPos[1].y = MLGameScreen.chunkSize.y + (currPos[1].y - MLGameScreen.chunkSize.y/2);
+            return currPos;
+        }
+        else
+        {
+            currPos[1].y = currPos[1].y - MLGameScreen.chunkSize.y/2;
+            return currPos;
+        }
+
+    }
+
+    public Vector2[] getSouthernTile()
+    {
+        //This method gets the current most southern tile visible by the camera
+        Vector2[] currPos = getCurrentTile();
+        if (currPos[1].y + MLGameScreen.chunkSize.y/2 > MLGameScreen.chunkSize.y)
+        {
+            currPos[0].y = currPos[0].y + 1;
+            currPos[1].y = MLGameScreen.chunkSize.y + (currPos[1].y + MLGameScreen.chunkSize.y/2)%MLGameScreen.chunkSize.y;
+            return currPos;
+        }
+        else
+        {
+            currPos[1].y = currPos[1].y + MLGameScreen.chunkSize.y/2;
+            return currPos;
+        }
+    }
+
+    public Vector2[] getEasternTile()
+    {
+        //This method gets the current most Eastern tile visible by the camera
+        Vector2[] currPos = getCurrentTile();
+        if (currPos[1].x + MLGameScreen.chunkSize.x/2 > MLGameScreen.chunkSize.x)
+        {
+            currPos[0].x = currPos[0].x + 1;
+            currPos[1].x = MLGameScreen.chunkSize.x + (currPos[1].x + MLGameScreen.chunkSize.x/2)%MLGameScreen.chunkSize.x;
+            return currPos;
+        }
+        else
+        {
+            currPos[1].x = currPos[1].x + MLGameScreen.chunkSize.x/2;
+            return currPos;
+        }
+    }
+
+    public Vector2[] getWesternTile()
+    {
+        //This method gets the current most Western tile visible by the camera
+        Vector2[] currPos = getCurrentTile();
+        if (currPos[1].x - MLGameScreen.chunkSize.x/2 < 0)
+        {
+            currPos[0].x = currPos[0].x - 1;
+            currPos[1].x = MLGameScreen.chunkSize.x + (currPos[1].x - MLGameScreen.chunkSize.x/2);
+            return currPos;
+        }
+        else
+        {
+            currPos[1].x = currPos[1].x - MLGameScreen.chunkSize.x/2;
+            return currPos;
+        }
+    }
 }
